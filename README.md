@@ -55,18 +55,18 @@ Frontend: User interface for both common and admin users.
 
 Backend: API for managing data and business logic.
 
-Database: Stores user data, reservations, payments, and content.
+Database: Pondering about to use it or not
 
 Payment Gateway: External integration for secure transactions.
 
 ✅ Technologies Used
-Frontend: React.js / Vue.js / Angular (choose one)
+Frontend: Next.js
 
-Backend: Node.js / Django / Laravel (choose one)
+Backend: Node.js
 
 Database: Pondering about to use it or not
 
-Payment: Stripe / PayPal integration
+Payment: Pix / Debt / Credit
 
 Version Control: GitHub
 
