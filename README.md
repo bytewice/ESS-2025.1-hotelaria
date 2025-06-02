@@ -87,7 +87,7 @@ Build admin dashboard to manage rooms, users, and reservations.
 
 Develop reporting features (e.g., payment summaries).
 
-🧑‍💻 Davi Gonzaga: Content Management
+🧑‍💻 Bruno Antônio: Content Management
 Design and implement system to manage hotel content (rooms, amenities).
 
 Develop interface for uploading and editing media.
