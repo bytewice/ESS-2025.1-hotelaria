@@ -15,6 +15,22 @@ Scenario: administrador criar um usuário para o cliente
   Then o sistema exibe a mensagem: "Usuário 'Charles' criado com sucesso"  
   And o cliente "Charles" aparece na lista de usuários com CPF "120120120-14"  
 
+Scenario: administrador criar um usuário para o cliente
+  Given o usuário "Bob" está logado no sistema com perfil "administrador"
+  And o cliente "Charles" não possui cadastro no sistema
+  And o CPF "120120120-14" está registrado no sistema
+  And "Bob" está na tela "Gerenciamento de usuários"
+  When "Bob" inicia o cadastro do novo usuário
+  And "Bob" preenche os dados do cliente:  
+    | Campo         | Valor           |  
+    | Nome          | Charles         |  
+    | CPF           | 120120120-14    |  
+    | Quarto        | Quarto 232      |  
+  And confirma o cadastro
+  Then o sistema exibe a mensagem: "CPF:120120120-14 já está associado a outro usuário. Por favor verifique se os dados estão corretos."  
+  And o cliente cujo CPF é "120120120-14" continua com seus dados inalterados no sistema
+  And o usuário "Charles" não foi registrado no sistema. 
+
 # Estou em um dilema sobre como remover um usuário é diferente de deletá-lo...
 # Vou continuar partindo do pressuposto que remover seja remover de um Quarto
 # e deletar seja apagar todos os dados do usuário do sistema (histórico de pagamento e dados pessoais)
@@ -45,6 +61,23 @@ Scenario: administrador edita o CPF de um usuário
   And todos os outros dados de "Eduardo" permanecem inalterados
   And o quarto "101" continua associado a "Eduardo"
 
+  Scenario: administrador edita o CPF de um usuário
+  Given o usuário "Bob" está logado no sistema com perfil "administrador"
+  And o cliente "Eduardo" está cadastrado com:
+    | Nome   | Eduardo      |
+    | CPF    | 123456789-10 |
+    | Quarto | 101          |
+  And "Eduardo" aparece na lista de usuários com CPF "123456789-10"
+  And o CPF "123456789-11" está registrado no sistema como:
+    | Nome   | Fabiano      |
+    | CPF    | 123456789-11 |
+    | Quarto | 102          |
+  When "Bob" atualiza o CPF de "Eduardo" para "123456789-11"
+  Then o sistema exibe a mensagem: "CPF:123456789-11"
+  And "Eduardo" aparece na lista de usuários com CPF "123456789-11 já registrado como Fabiano! Por favor verifique se o novo CPF está correto."
+  And todos os dados de "Eduardo" permanecem inalterados
+  And todos os dados de "Fabiano" permanecem inalterados
+
 Scenario: administrador deleta a conta de um usuário
   Given o usuário "Bob" está logado no sistema com perfil "administrador"
    And o usuário "Felipe" está cadastrado com:
@@ -64,4 +97,6 @@ Scenario: administrador deleta a conta de um usuário
     | CPF afetado  | 000000000-00         |
 
 # tratar o cenário de tentar criar um usuário com um CPF deletado anteriormente
+
+
 
