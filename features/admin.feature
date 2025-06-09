@@ -60,8 +60,7 @@ Scenario: administrador edita o CPF de um usuário
   When "Bob" atualiza o CPF de "Eduardo" para "123456789-11"
   Then o sistema exibe a mensagem: "CPF:123456789-11"
   And "Eduardo" aparece na lista de usuários com CPF "123456789-11 já registrado como Fabiano! Por favor verifique se o novo CPF está correto."
-  And todos os dados de "Eduardo" permanecem inalterados
-  And todos os dados de "Fabiano" permanecem inalterados
+  And todos os dados de "Eduardo" e "Fabiano" permanecem inalterados
 
 Scenario: administrador deleta a conta de um usuário
   Given o usuário "Bob" está logado no sistema com perfil "administrador"
