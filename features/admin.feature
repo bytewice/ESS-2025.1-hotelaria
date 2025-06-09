@@ -15,7 +15,7 @@ Scenario: administrador criar um usuário para o cliente
   Then o sistema exibe a mensagem: "Usuário 'Charles' criado com sucesso"  
   And o cliente "Charles" aparece na lista de usuários com CPF "120120120-14"  
 
-Scenario: administrador criar um usuário para o cliente
+Scenario: administrador tenta criar um usuário para o cliente com um CPF já registrado
   Given o usuário "Bob" está logado no sistema com perfil "administrador"
   And o cliente "Charles" não possui cadastro no sistema
   And o CPF "120120120-14" está registrado no sistema
@@ -61,7 +61,7 @@ Scenario: administrador edita o CPF de um usuário
   And todos os outros dados de "Eduardo" permanecem inalterados
   And o quarto "101" continua associado a "Eduardo"
 
-  Scenario: administrador edita o CPF de um usuário
+  Scenario: administrador tenta mudar o CPF de um usuário para o CPF de outro usuário (falha)
   Given o usuário "Bob" está logado no sistema com perfil "administrador"
   And o cliente "Eduardo" está cadastrado com:
     | Nome   | Eduardo      |
