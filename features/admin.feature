@@ -98,5 +98,15 @@ Scenario: administrador deleta a conta de um usuário
 
 # tratar o cenário de tentar criar um usuário com um CPF deletado anteriormente
 
+Scenario: Administrador visualiza a tabela de usuários
+  Given que o usuário "Bob" está autenticado no sistema com o perfil de "administrador"
+  And está na tela "Gerenciamento de usuários"
+  When Bob clica na opção "Tabela de usuários"
+  Then o sistema deve exibir uma tabela com os dados dos usuários
+  And a tabela deve conter, para cada usuário, as colunas:
+    | Nome  |
+    | CPF   |
+    | Email |
+  And cada linha da tabela deve exibir as informações correspondentes de cada usuário
 
 
