@@ -5,31 +5,30 @@ Feature: Interação com a interface de cadastro, edição e exclusão de usuár
 
 Scenario: Cadastro de usuário com sucesso pela interface
     Given estou na página de "Cadastro de Usuário"
-    And preencho os campos obrigatórios com:
+    When preencho os campos obrigatórios com:
         | Nome     | João               |
         | Login    | pepino             |
         | Senha    | senha10            |
         | CPF      | 123.123.123-12     |
         | E-mail   | dggb@cin.ufpe.br   |
         | Telefone | 8199555-5555       |
-    When seleciono a opção "Cadastrar"
+    And seleciono a opção "Cadastrar"
     Then Vejo a mensagem "Usuário cadastrado!"
     And Sou redirecionado para a página de "Login"
 
 Scenario: Falha no cadastro por falta de informações obrigatórias pela interface
     Given estou na página de "Cadastro de Usuário"
-    And preencho os campos:
+    When preencho os campos:
         | Nome     | Fernan             |
         | Login    | tangerina          |
         | Senha    | senha11            |
         | E-mail   | dfer@cin.ufpe.br   |
-    And deixo o campo "CPF" e "Telefone" vazios
-    When seleciono a opção "Cadastrar"
+    And seleciono a opção "Cadastrar"
     Then permaneço na página de "Cadastro de Usuário"
     And vejo a mensagem de erro "CPF e Login são obrigatórios"
 
 Scenario: Falha no cadastro por informações únicas repetidas pela interface
-    Given já existe um usuário com CPF "113.113.113-11"
+    Given já existe um usuário com CPF "113.113.113-11" no sistema
     And estou na página de "Cadastro de Usuário"
     When preencho os campos:
         | Nome     | Valdemar           |
