@@ -13,6 +13,24 @@ Scenario: Realizar reserva com sucesso
     Then O sistema retorna a mensagem "Reserva realizada"
     And A reserva do quarto "232" com a data de check in "05/05/2025" e checkout "07/05/2025" é registrada no banco de dados
 
+Scenario: Falha ao realizar rerseva por falta de parâmetros
+    Given O user de login "pedd" está no sistema
+    And Ele tem o método de pagamento "cartao 5" cadastrado
+    When É enviado uma requesição para o sistema com o quarto de número "232" do tipo "comum"
+    And A data de check in "06/07/2025"
+    And Método de pagamento "cartao 5"
+    Then O sistema retorna a mensagem "Reserva não realizada: Preencha todos os campos"
+
+Scenario: Falha ao realizar uma reserva de quarto já reservado
+    Given O user de login "pedd" está no sistema
+    And Ele tem o método de pagamento "cartao 5" cadastrado
+    And O quarto de número "500" do tipo "comum" já foi reservado nas datas de check in "10/10/2025" e check out "14/10/2025"
+    When É enviado uma requesição para o sistema com o quarto de número "500" do tipo "comum"
+    And A data de check in "09/10/2025"
+    And A data de check out "12/10/2025"
+    And Método de pagamento "cartao 5"
+    Then O sistema retorna a mensagem "Reserva não realizada: Intervalo de Datas conflitante"
+
 Scenario: Editar reserva com Sucesso
     Given O user de login "jpp" está no sistema
     And Ele tem o método de pagamento "cartao 0" cadastrado
