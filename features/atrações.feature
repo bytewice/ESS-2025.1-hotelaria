@@ -12,3 +12,21 @@ Then a hóspede "Ana" e movida para  página "Spa"
 And na página “Spa” visualiza informações  “Aguas termais,andar 20”
 And visualiza imagens “Spa.png” e avaliações “5 estrelas,muito relaxante”
 And Tem a opção de “Avaliar”
+
+Scenario:Entrando na página de avaliação
+
+Given que a hóspede "Ana" está na página de “Spa”
+When a hóspede "Ana" seleciona  "Avaliar"
+Then a hóspede "Ana" e movida para  página "Avaliar Spa"
+And na página “Avaliar Spa” visualiza os campos a serem preenchidos ”Nome”, “Nota”,”Comentario” And e o campo ”Data” com o dia atual
+And Tem a opção de “Confirmar”
+
+Scenario:Preenchendo a página de avaliação com campos validos
+Given que a hóspede "Ana" está na página de “Avaliar Spa”
+And visualiza os campos a serem preenchidos  “Nome”,“Nota”,”Comentario”e o             campo ”Data” com o dia atual 
+When prenche o campo “nota” com “5”
+And   prenche o campo “comentário” com  “Muito Relaxante”
+And   prenche o campo “nome” com  “Ana”
+And a hóspede "Ana" seleciona “Confirmar”
+Then  a hóspede "Ana" e movida para  página "Spa"  
+And visualiza sua avaliação
