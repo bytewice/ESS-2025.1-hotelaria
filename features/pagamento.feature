@@ -9,7 +9,7 @@ Scenario: Adicionar cartão como forma de pagamento
 
 Scenario: Adicionar cartão já existente
     Given: o usuário comum "João" está na página "meus cartões"
-    And: o cartão "cartão 1" já está cadastrado
+    And: o cartão 1 com dados "dados do cartão 1" já está cadastrado
     When: o usuário "João" clica em "adicionar cartão"
     And: adiciona os dados "dados do cartão 1"
     And: aperta o botão "adicionar"
@@ -38,4 +38,5 @@ Scenario: Disparo de e-mail após reserva compartilhada
     Given: o usuário comum "João" está na página "reserva de quarto"
     When: o usuário "João" compartilha a "reserva do quarto" com o usuário comum "Leandro"
     Then: o usuário "Leandro" recebe um e-mail "reserva compartilhada"
+    teste
 
