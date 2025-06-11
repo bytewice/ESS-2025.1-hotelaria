@@ -38,5 +38,4 @@ Scenario: Disparo de e-mail após reserva compartilhada
     Given: o usuário comum "João" está na página "reserva de quarto"
     When: o usuário "João" compartilha a "reserva do quarto" com o usuário comum "Leandro"
     Then: o usuário "Leandro" recebe um e-mail "reserva compartilhada"
-    teste2
 
