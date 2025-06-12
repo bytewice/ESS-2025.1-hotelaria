@@ -53,6 +53,15 @@ Scenario (GUI): Bloqueio de reserva bem-sucedido
   Then o sistema exibe a mensagem "Reserva bloqueada com sucesso"  
   And a reserva de "01828392300" aparece com o status "Bloqueada" na lista de reservas
 
+Scenatio (GUI): Edição de reserva mal sucedida
+  Given estou na página "Lista de reservas"
+  And estou logado como "admin"
+  And existe uma reserva cadastrada para o hóspede "01828392300" com check-in em "10/07/2025" e check-out em "15/07/2025"  
+  When o administrador clica no campo "Data da Reserva" da reserva de "01828392300" 
+  And altera a data de check-out para "17/07/2025"    
+  Then o sistema exibe a mensagem "Conflito de data detectado"
+  And a reserva de "01828392300" permanece inalterada
+
 Scenario (GUI): Visualização de estatísticas gerais de reservas  
   Given estou na página "Lista De Reservas" logado como "admin"  
   When clico na opção "Ver Estatísticas Gerais"  
