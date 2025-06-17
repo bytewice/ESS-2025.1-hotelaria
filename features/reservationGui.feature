@@ -24,7 +24,7 @@ Scenario: Editar Reserva com Sucesso pela interface
     When Seleciono a opção "Editar" na reserva do quarto "234"
     And Altero a data do Check out para "15/10/2025"
     And Seleciono a opção "Confirmar"
-    Then Contínuo na página "Minhas Reservas"
+    Then Continuo na página "Minhas Reservas"
     And Vejo a mensagem "Reserva Editada"
     And A data de check out agora é "15/10/2025"
 
@@ -32,6 +32,6 @@ Scenario: Excluir Reserva com Sucesso pela interface
     Given Estou na página "Minhas Reservas"
     And Tenho a reserva do quarto "540"
     When Seleciono a opção "Excluir" na reserva do quarto "540"
-    Then Continuo ná pagina "Minhas Reservas"
+    Then Continuo na página "Minhas Reservas"
     And Recebo a mensagem "Reserva Excluída"
     And Não existe mais a reserva do quarto "540" na minha lista de reservas
