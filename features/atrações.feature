@@ -6,27 +6,41 @@ So that eu possa organizar minhas experiências e descobrir novas atrações par
 	
 Scenariorio:Entrando em uma página de uma atração
 
-Given que a hóspede "Ana" está na página de "Atrações"
-When a hóspede "Ana" seleciona “Spa”
-Then a hóspede "Ana" e movida para  página "Spa"
-And na página “Spa” visualiza informações  “Aguas termais,andar 20”
-And visualiza imagens “Spa.png” e avaliações “5 estrelas,muito relaxante”
-And Tem a opção de “Avaliar”
+Given que o usuario de cpf "08622635480" esta na pagina de "Atrações"
+When o usuario seleciona “Spa”
+Then o usuario e movido para página "Spa"
 
 Scenario:Entrando na página de avaliação
 
-Given que a hóspede "Ana" está na página de “Spa”
-When a hóspede "Ana" seleciona  "Avaliar"
-Then a hóspede "Ana" e movida para  página "Avaliar Spa"
-And na página “Avaliar Spa” visualiza os campos a serem preenchidos ”Nome”, “Nota”,”Comentario” And e o campo ”Data” com o dia atual
-And Tem a opção de “Confirmar”
+Given que o usuario de cpf "08622635480" esta na pagina de “Spa”
+When o usuario seleciona "Avaliar"
+Then o usuario e movido para página "Avaliar Spa"
 
 Scenario:Preenchendo a página de avaliação com campos validos
-Given que a hóspede "Ana" está na página de “Avaliar Spa”
-And visualiza os campos a serem preenchidos  “Nome”,“Nota”,”Comentario”e o             campo ”Data” com o dia atual 
+
+Given que o usuario de cpf "08622635480" esta na pagina de “Avaliar Spa”
+And visualiza os campos a serem preenchidos “Nome”,“Nota”,”Comentario” e o campo ”Data” com o dia atual 
 When prenche o campo “nota” com “5”
-And   prenche o campo “comentário” com  “Muito Relaxante”
-And   prenche o campo “nome” com  “Ana”
-And a hóspede "Ana" seleciona “Confirmar”
-Then  a hóspede "Ana" e movida para  página "Spa"  
+And prenche o campo “comentário” com  “Muito Relaxante”
+And prenche o campo “nome” com  “Ana”
+And o usuario seleciona “Confirmar”
+Then o usuario e movido para página "Avaliar Spa"  
 And visualiza sua avaliação
+
+Scenario:Preenchendo a página de avaliação sem prencher nome
+
+Given que o usuario de cpf "08622635480" esta na pagina de “Avaliar Spa”
+And visualiza os campos a serem preenchidos “Nome”,“Nota”,”Comentario” e o campo ”Data” com o dia atual 
+When prenche o campo “nota” com “5”
+And prenche o campo “comentário” com  “Muito Relaxante”
+And o usuario seleciona “Confirmar”
+Then o usuario recebe uma mensagem de erro “Campos invalidos”
+
+Scenario:Preenchendo a página de avaliação sem prencher nota
+
+Given que o usuario de cpf "08622635480" esta na pagina de “Avaliar Spa”
+And visualiza os campos a serem preenchidos “Nome”,“Nota”,”Comentario” e o campo ”Data” com o dia atual 
+When prenche o campo “nome” com “Ana”
+And prenche o campo “comentário” com  “Muito Relaxante”
+And o usuario seleciona “Confirmar”
+Then o usuario recebe uma mensagem de erro “Campos invalidos”
