@@ -8,7 +8,21 @@ const AvaliacaoSchema = new mongoose.Schema({
 })
 
 const MetodoDePagamentoSchema = new mongoose.Schema({
-    tipo: String
+    tipo: {
+        type: String,
+        unique: true,
+        required: true,
+    },
+    nome: {
+        type: String,
+        unique: true,
+        required: true,
+    },
+    //ADICIONAR CARTAO
+    //REMOVER CARTAO
+    //CADASTRO DE PROMOCAO
+    //EDITAR PROMOCAO
+    //REMOVER PROMOCAO
 })
 
 const UserComum = User.discriminator("Comum", new mongoose.Schema({

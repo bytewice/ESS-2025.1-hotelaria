@@ -1,5 +1,5 @@
 import express from 'express';
-import {getAllUser, getUser, signupUser, updateUser, deleteUser} from '../controllers/user_perfil.controllers'
+import {getAllUser, getUser, signupUser, updateUser, deleteUser, addCartao} from '../controllers/user_perfil.controllers.js'
 const router = express.Router()
 
 /* JSON */
@@ -10,6 +10,7 @@ router.get('/:id', getUser)
 
 // POST
 router.post('/signup', signupUser) //create?
+router.post('/:id/metodo', addCartao)
 
 // PUT
 router.put('/:id', updateUser)
