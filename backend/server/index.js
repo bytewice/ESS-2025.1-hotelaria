@@ -20,9 +20,6 @@ import userReservationRoutes from './routes/user_reservation.routes.js'
 
 app.use('/user', userPerfilRoutes)
 app.use('/reservation', userReservationRoutes)
-app.use('/ping', pingRoutes)
-app.use('/books', bookRoutes)
-app.use('/auth', authRoutes)
 
 app.listen(4000, () => {
   connectToMongoDB()

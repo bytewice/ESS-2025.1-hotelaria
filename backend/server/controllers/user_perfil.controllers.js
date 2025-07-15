@@ -84,6 +84,20 @@ export const loginUser = async(req, res) => {
     }
 }
 
+export const logoutUser = (req, res) => {
+    try {
+        res.cookie("jwt", "", { maxAge:0})
+        res.status(200).json({
+            message: "Logged out successfully"
+        })
+    } catch (error) {
+        console.log("Error in logout:", error.message)
+        res.status(500).json({
+            error: "Internal Server Error"
+        })
+    }
+}
+
 export const updateUser = async(req,res) => {
     try{
         const userId = req.params.id
@@ -128,16 +142,31 @@ export const deleteUser = async(req, res) => {
 
 }
 
-export const logoutUser = (req, res) => {
-    try {
-        res.cookie("jwt", "", { maxAge:0})
-        res.status(200).json({
-            message: "Logged out successfully"
-        })
-    } catch (error) {
-        console.log("Error in logout:", error.message)
+export const getAllUser = async(req, res) => {
+    try{
+        const users = await User.find({})
+        return res.status(200).json(users)
+    } catch(error){
+        console.log("Error in getAllUser:", error.message)
         res.status(500).json({
             error: "Internal Server Error"
         })
     }
 }
+
+export const getUser = async(req, res) => {
+    try{
+        const UserId = req.params.id
+        const user = await UserComum.findById(UserId)
+        if(!user){
+            return res.status(404).json({error:"User not found"})
+        }
+        res.status(200).json(user)
+    } catch(error){
+        console.log("Error in getUser:", error.message)
+        res.status(500).json({
+            error: "Internal Server Error"
+        })
+    }
+}
+

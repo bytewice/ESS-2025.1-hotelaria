@@ -1,6 +1,5 @@
 import express from 'express';
-//import { getAllJson, getBookByIdJson, writeBookJson, updateBookJson, deleteBookJson } from '../controllers/book.json.controllers.js'
-//import {funções definidas no controler} from 'rota do arquivo no controler'
+import {getAllUser, getUser, signupUser, updateUser, deleteUser} from '../controllers/user_perfil.controllers'
 const router = express.Router()
 
 /* JSON */
@@ -10,7 +9,7 @@ router.get('/', getAllUser)
 router.get('/:id', getUser)
 
 // POST
-router.post('/', createUser)
+router.post('/signup', signupUser) //create?
 
 // PUT
 router.put('/:id', updateUser)
