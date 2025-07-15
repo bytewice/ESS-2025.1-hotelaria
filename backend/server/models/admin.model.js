@@ -1,6 +1,7 @@
 import User from "./user.model.js"
+import mongoose from 'mongoose'
 
-const Admin = user.discriminator("Admin", new mongoose.schema({
+const Admin = User.discriminator("Admin", new mongoose.Schema({
     //promocoes
     //?
 }))

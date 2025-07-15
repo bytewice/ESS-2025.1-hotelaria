@@ -1,8 +1,11 @@
 import fs from 'fs'
-import path from 'path'
+import generateTokenAndSetCookie from '../utils/generateToken'
+import bcrypt from 'bcryptjs'
 
 export const getAllUser = (req, res) => {
     try{
+
+        {}
 
     } catch (error) {
         console.log("Error in getAllUser:", error.message)

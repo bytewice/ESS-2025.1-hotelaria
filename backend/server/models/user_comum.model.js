@@ -1,4 +1,5 @@
 import User from "./user.model.js"
+import mongoose from 'mongoose'
 
 const AvaliacaoSchema = new mongoose.Schema({
     texto: String,
@@ -6,17 +7,17 @@ const AvaliacaoSchema = new mongoose.Schema({
     data: { type: Date, default: Date.now }
 })
 
-const MetodoDePagamento = new mongoose.Schema({
+const MetodoDePagamentoSchema = new mongoose.Schema({
     tipo: String
 })
 
-const UserComum = user.discriminator("Comum", new mongoose.schema({
+const UserComum = User.discriminator("Comum", new mongoose.Schema({
     Telefone: Number,
     Avaliacoes: {
         type: [AvaliacaoSchema]
     },
     Metodos: {
-        type: [MetodoDePagamento]
+        type: [MetodoDePagamentoSchema]
     }
 }))
 
