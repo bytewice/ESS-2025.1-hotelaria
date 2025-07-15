@@ -1,4 +1,4 @@
-import generateTokenAndSetCookie from '../utils/generateToken'
+import generateTokenAndSetCookie from '../utils/generateToken.js'
 import User from '../models/user.model.js'
 import UserComum from '../models/user_comum.model.js'
 import bcrypt from 'bcryptjs'
@@ -31,7 +31,7 @@ export const signupUser = async(req, res) => {
             Name,
             Email,
             CPF,
-            password: hashedPassword,
+            Password: hashedPassword,
             Telefone,
             Avaliacoes: [],
             Metodos: [],
@@ -164,6 +164,32 @@ export const getUser = async(req, res) => {
         res.status(200).json(user)
     } catch(error){
         console.log("Error in getUser:", error.message)
+        res.status(500).json({
+            error: "Internal Server Error"
+        })
+    }
+}
+
+export const addMetodo = async(req, res) => {
+    try{
+        const userId = req.params.id
+        const metodo = req.params.body
+
+        if(!metodo){
+            return res.status(400).json({ error: "Metodo field is empty"})
+        }
+        const updateMetodo = { $addToSet: {Metodos: metodo}}
+        const updateMetodoUser = await UserComum.findByIdAndUpdate(
+            userId, updateMetodo, {new: true}
+        )
+        if(!updateMetodoUser){
+            return res.status(400).json({ error:"User not found"})
+        }
+
+        res.status(200).json({ message: "Metodo added", user: updateMetodoUser })
+
+    } catch(error){
+        console.log("Error in addCartao:", error.message)
         res.status(500).json({
             error: "Internal Server Error"
         })

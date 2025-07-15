@@ -10,12 +10,10 @@ const AvaliacaoSchema = new mongoose.Schema({
 const MetodoDePagamentoSchema = new mongoose.Schema({
     tipo: {
         type: String,
-        unique: true,
         required: true,
     },
     nome: {
         type: String,
-        unique: true,
         required: true,
     },
     //ADICIONAR CARTAO
