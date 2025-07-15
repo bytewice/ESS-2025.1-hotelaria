@@ -15,10 +15,14 @@ app.use(express.json())
 app.use(cookieParser())
 
 // Routes imports
+import userPerfilRoutes from './routes/user_perfil.routes.js'
+import userReservationRoutes from './routes/user_reservation.routes.js'
 import pingRoutes from './routes/ping.routes.js'
 import bookRoutes from './routes/books.routes.js'
 import authRoutes from './routes/oldauth.routes.js'
 
+app.use('/user', userPerfilRoutes)
+app.use('/reservation', userReservationRoutes)
 app.use('/ping', pingRoutes)
 app.use('/books', bookRoutes)
 app.use('/auth', authRoutes)
