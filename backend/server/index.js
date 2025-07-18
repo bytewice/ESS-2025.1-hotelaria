@@ -16,9 +16,10 @@ app.use(cookieParser())
 
 // Routes imports
 import userPerfilRoutes from './routes/user_perfil.routes.js'
+import atraçõesRoutes   from './routes/atrações_routes.js'
 //import userReservationRoutes from './routes/user_reservation.routes.js'
 //import AdminRoutes from './routes/admin.routes.js'
-
+app.use('/atrações', atraçõesRoutes)
 app.use('/user', userPerfilRoutes)
 //app.use('/reservation', userReservationRoutes)
 
