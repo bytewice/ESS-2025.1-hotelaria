@@ -16,7 +16,7 @@ app.use(cookieParser())
 
 // Routes imports
 import userPerfilRoutes from './routes/user_perfil.routes.js'
-import adminRoutes from './routes/admin.routes.js'
+import adminRoutes from './routes/admin-users.routes.js'
 
 app.use('/user', userPerfilRoutes)
 app.use('/admin', adminRoutes)
