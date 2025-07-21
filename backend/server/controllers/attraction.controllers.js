@@ -61,7 +61,7 @@ export const sendReview = async (req, res) => {
     }
 
     const review = { comentario, nota, data: new Date() };
-    attraction.reviews.push(review); // reviews deve estar no schema
+    attraction.reviews.push(review); 
 
     await attraction.save();
     res.status(201).json({ mensagem: "Review adicionada com sucesso!" });
