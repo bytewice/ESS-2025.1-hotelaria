@@ -22,24 +22,11 @@ export const identifyUser = (req, res, next) => {
     }
 };
 
-// Middleware para verificar se o usuário identificado tem a role de 'admin'.
-// Este middleware DEVE ser usado APÓS o identifyUser.
-export const isAdmin = (req, res, next) => {
-    // Verifica se req.user foi populado pelo identifyUser e se a role é 'admin'.
-    if (!req.user || req.user.role !== 'admin') {
-        // Se não for admin, retorna um erro 403 (Forbidden - Proibido).
-        return res.status(403).json({ message: 'Acesso negado. Apenas administradores podem realizar esta ação.' });
-    }
-    next(); // Se for admin, continua para o próximo middleware ou rota
+export const authorizeRole = (roles) => {
+    return (req, res, next) => {
+        if (!req.user || !roles.includes(req.user.role)) {
+            return res.status(403).json({ message: 'Permissão negada. Você não tem a role necessária.' });
+        }
+        next();
+    };
 };
-
-// Middleware mais genérico para autorizar múltiplas roles (opcional, mas flexível).
-// Pode ser útil se você tiver mais tipos de usuários no futuro (ex: ['recepcionista', 'gerente']).
-// export const authorizeRole = (roles) => {
-//     return (req, res, next) => {
-//         if (!req.user || !roles.includes(req.user.role)) {
-//             return res.status(403).json({ message: 'Permissão negada. Você não tem a role necessária.' });
-//         }
-//         next();
-//     };
-// };
