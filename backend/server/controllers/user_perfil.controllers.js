@@ -144,7 +144,7 @@ export const deleteUser = async(req, res) => {
 
 export const getAllUser = async(req, res) => {
     try{
-        const users = await User.find({})
+        const users = await User.find({}) // as chaves em branco indicam uma busca sem filtro
         return res.status(200).json(users)
     } catch(error){
         console.log("Error in getAllUser:", error.message)

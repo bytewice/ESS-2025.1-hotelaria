@@ -1,11 +1,12 @@
 import express from 'express';
 import {getAllUser, getUser, signupUser, updateUser, deleteUser, addMetodo} from '../controllers/user_perfil.controllers.js'
+
 const router = express.Router()
 
 /* JSON */
 
 // GET
-router.get('/', getAllUser)
+// router.get('/', getAllUser) **essa rota não pode existir no usuário comum
 router.get('/:id', getUser)
 
 // POST
