@@ -3,6 +3,8 @@ import bcrypt from 'bcryptjs';
 import mongoose from 'mongoose';
 import User from '../models/user.model.js';
 import connectToMongoDB from '../db/connectToMongoDB.js';
+// p rodar tem q ver o script
+
 
 // Carrega as variáveis de ambiente do arquivo .env
 dotenv.config();
@@ -17,8 +19,8 @@ const seedAdminUser = async () => {
         // Dados do administrador padrão que será criado
         const adminData = {
             Name: 'Admin Principal',
-            Email: 'admin@hotelaria.com',
-            CPF: '00000000000', 
+            Email: 'seed@hotelaria.com',
+            CPF: '00000000001', 
             Password: 'adminpassword', // Esta senha será hasheada antes de salvar
             Telefone: '11999999999', 
             role: 'seed' 
