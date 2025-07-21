@@ -6,6 +6,10 @@ const router = express.Router()
 
 // GET
 router.get('/', getAllAtration)
+router.get('/:name', detailAtration )
+router.get('/:name/review', getReview)
 
+// Post
+router.post('/:name/review', sendReview)
 
 export default router
