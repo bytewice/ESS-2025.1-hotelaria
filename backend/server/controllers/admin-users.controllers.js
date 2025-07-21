@@ -1,5 +1,5 @@
-import User from '../models/user.model.js'; // Importe o modelo de Usuário
-import bcrypt from 'bcryptjs'; // Importe o bcryptjs para hashear senhas
+import User from '../models/user.model.js';
+import bcrypt from 'bcryptjs';
 
 export const getAllAdmins = async (req, res) => {
     try {
@@ -88,21 +88,11 @@ export const deleteAdmin = async (req, res) => {
     try {
         const adminIdToDelete = req.params.id; // Pega o ID do administrador a ser deletado da URL
 
-        // Opcional: Impedir que o próprio admin logado se delete
+        // Opcional: Impedir que o próprio admin ou seed logado se delete
         // req.user._id viria do middleware identifyUser
         if (req.user && req.user._id === adminIdToDelete) {
             return res.status(403).json({ error: "Você não pode deletar seu próprio perfil de administrador." });
         }
-
-        // Opcional: Impedir a exclusão do último admin (ou do admin 'seed')
-        // Você precisaria buscar todos os admins e verificar a contagem
-        const adminCount = await User.countDocuments({ role: 'admin' });
-        if (adminCount <= 1 && adminIdToDelete !== req.user._id) { // Se for o último admin e não for o que está tentando se deletar
-            // Esta lógica pode ser mais complexa dependendo de quem você quer que seja o "último" admin
-            // Por exemplo, se o admin "seed" é o único que não pode ser deletado.
-            // Para simplificar, vamos permitir se houver mais de 1 admin.
-        }
-
 
         // 1. Encontra e deleta o usuário pelo ID, garantindo que ele seja um 'admin'
         // Adicionamos { role: 'admin' } para garantir que apenas admins possam ser deletados por esta rota
