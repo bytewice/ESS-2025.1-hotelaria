@@ -1,9 +1,15 @@
-import express from 'express';
-//import { getAllJson, getBookByIdJson, writeBookJson, updateBookJson, deleteBookJson } from '../controllers/book.json.controllers.js'
-//import {funções definidas no controler} from 'rota do arquivo no controler /reservation.controllers.js'
+/*import express from 'express';
+import {
+  getAllreservation,
+  getReservation,
+  createReservation,
+  updateReservation,
+  deleteReservation
+} from '../controllers/user_reservation.controllers.js';
+
 const router = express.Router()
 
-/* JSON */
+ JSON 
 
 // GET
 router.get('/', getAllreservation)
@@ -19,3 +25,4 @@ router.put('/:id', updateReservation)
 router.delete('/:id', deleteReservation)
 
 export default router
+*/
