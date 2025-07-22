@@ -63,7 +63,7 @@ export const editarReserva = async (req, res) => {
         reserva.checkOut = checkOut;
         await reserva.save();
 
-    res.json({mensagem: "Reserva atualizada com sucesso", reverva});
+    res.json({mensagem: "Reserva atualizada com sucesso", reserva});
     } catch(error) {
         res.status(500).json({erro: error.message});
     }
