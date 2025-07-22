@@ -13,6 +13,9 @@
   
   "scripts": {
     "dev": "nodemon index.js",
+    "seed:user": "node ./seeds/seedUser.js",
+    "test:api": "cucumber-js --tags 'not @gui'",
+    "test:gui": "cucumber-js --tags '@gui'",
     "seed:admin": "node ./seeds/seedAdmin.js"
   },
   "type": "module"
