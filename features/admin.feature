@@ -148,3 +148,24 @@ Scenario (Service): Identificar conflitos de reserva para um mesmo quarto
   When tento cadastrar uma nova reserva para o quarto "305" de "12/08/2025" a "17/08/2025"
   Then o sistema retorna "Conflito detectado entre reservas de 10/08/2025 a 15/08/2025 e 12/08/2025 a 17/08/2025"  
   And impede o cadastro da nova reserva
+  
+Scenario (Service): Listar reservas ativas em um intervalo de datas
+  Given o sistema possui reservas com check-in e check-out entre "10/07/2025" e "20/07/2025"
+  When consulto as reservas ativas entre "12/07/2025" e "15/07/2025"
+  Then o sistema retorna uma lista contendo todas as reservas cujo período inclui datas entre "12/07/2025" e "15/07/2025"
+
+Scenario (Service): Verificar disponibilidade de um quarto em um intervalo de datas
+  Given o quarto "402" possui uma reserva de "20/07/2025" a "25/07/2025"
+  When consulto a disponibilidade do quarto "402" entre "26/07/2025" e "30/07/2025"
+  Then o sistema retorna que o quarto "402" está disponível para o período solicitado
+
+Scenario (Service): Recuperar histórico de reservas de um hóspede
+  Given o hóspede com CPF "01828392300" possui três reservas no sistema
+  When consulto o histórico de reservas do hóspede "01828392300"
+  Then o sistema retorna os dados das três reservas, incluindo datas, código da reserva e ID do quarto
+
+Scenario (Service): Listar reservas futuras de um determinado quarto
+  Given o sistema possui reservas futuras e passadas para o quarto "210"
+  And hoje é "15/07/2025"
+  When consulto as reservas futuras para o quarto "210"
+Then o sistema retorna todas as reservas com check-in após "15/07/2025" associadas ao quarto "210"
