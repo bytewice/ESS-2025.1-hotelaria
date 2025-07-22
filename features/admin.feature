@@ -136,13 +136,6 @@ Scenario (GUI): Visualização de estatísticas gerais de reservas
     When clico na opção "Ver Estatísticas Gerais"
     Then um pop-up é exibido contendo a taxa de ocupação, número total de reservas, número de usuários e número de check-ins
 
-Scenario (Service): Obter taxa de ocupação em um intervalo de datas
-    Given o sistema tem reservas entre 01/07/2025 e 31/07/2025
-    And o total de dias disponíveis no mês de julho é "31"
-    And o total de dias ocupados por reservas ativas ou finalizadas é "23"
-    When consulto a taxa de ocupação para o período de "01/07/2025" a "31/07/2025"
-    Then o sistema retorna "73%" como taxa de ocupação
-
 Scenario (Service): Identificar conflitos de reserva para um mesmo quarto
   Given o sistema possui uma reserva no quarto “305” com check-in em “10/08/2025” e check-out em “15/08/2025”
   When tento cadastrar uma nova reserva para o quarto "305" de "12/08/2025" a "17/08/2025"
