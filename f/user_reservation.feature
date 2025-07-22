@@ -66,7 +66,7 @@ Scenario: Falha ao realizar uma reserva de quarto já reservado
     Given O user de CPF "144144144-14" está no sistema
     And Ele tem o método de pagamento "cartao 5" cadastrado
     And O quarto de número "500" já foi reservado nas datas de check in "10/10/2025" e check out "14/10/2025"
-    When É enviado uma requesição para o sistema com o quarto de número "500"
+    When É enviado uma requisição para o sistema com o quarto de número "500"
     And A data de check in "09/10/2025"
     And A data de check out "12/10/2025"
     And Método de pagamento "cartao 5"
@@ -77,7 +77,7 @@ Scenario: Editar reserva com Sucesso
     And Ele tem uma reserva do quarto "604"
     And A reserva tem check out em "25/03/2025"
     And Nenhuma outra reserva existe para o quarto "604" entre "25/03/2025" e "27/03/2025"
-    When É enviado uma requesição para o sistema com A data de check out "27/03/2025"
+    When É enviado uma requisição para o sistema com A data de check out "27/03/2025"
     Then O sistema retorna a mensagem "Reserva Editada"
     And A reserva do quarto "604" feita pelo user de CPF "144144144-14" tem data de check out "27/03/2025"
 

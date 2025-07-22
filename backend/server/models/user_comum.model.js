@@ -16,15 +16,10 @@ const MetodoDePagamentoSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    //ADICIONAR CARTAO
-    //REMOVER CARTAO
-    //CADASTRO DE PROMOCAO
-    //EDITAR PROMOCAO
-    //REMOVER PROMOCAO
 })
 
 const UserComum = User.discriminator("Comum", new mongoose.Schema({
-    Telefone: Number,
+    Telefone: String,
     Avaliacoes: {
         type: [AvaliacaoSchema]
     },

@@ -8,10 +8,10 @@ Feature: Interação com a interface de cadastro, edição e exclusão de usuár
 Scenario: Cadastro de usuário com sucesso pela interface
     Given estou na página de "Cadastro de Usuário"
     When preencho os campos obrigatórios com:
-        | Nome     | João               |
-        | Senha    | senha10            |
+        | Name     | João               |
+        | Password    | senha10            |
         | CPF      | 123123123-12     |
-        | E-mail   | dggb@cin.ufpe.br   |
+        | Email   | dggb@cin.ufpe.br   |
         | Telefone | 8199555-5555       |
     And seleciono a opção "Cadastrar"
     Then Vejo a mensagem "Usuário cadastrado!"
@@ -21,22 +21,22 @@ Scenario: Cadastro de usuário com sucesso pela interface
 Scenario: Falha no cadastro por falta de informações obrigatórias pela interface
     Given estou na página de "Cadastro de Usuário"
     When preencho os campos:
-        | Nome     | Fernan             |
-        | Senha    | senha11            |
-        | E-mail   | dfer@cin.ufpe.br   |
+        | Name     | Fernan             |
+        | Password    | senha11            |
+        | Email   | dfer@cin.ufpe.br   |
     And seleciono a opção "Cadastrar"
     Then permaneço na página de "Cadastro de Usuário"
-    And vejo a mensagem de erro "CPF é obrigatorio"
+    And vejo a mensagem de erro "Elementos faltando"
 
 @gui @cadastro_falha_existe
 Scenario: Falha no cadastro por informações únicas repetidas pela interface
     Given já existe um usuário com CPF "113113113-11" no sistema
     And estou na página de "Cadastro de Usuário"
     When preencho os campos:
-        | Nome     | Valdemar           |
-        | Senha    | senha12            |
-        | E-mail   | plok@cin.ufpe.br   |
-        | CPF      | 113113113-11     |
+        | Name     | Valdemar           |
+        | Password | senha12            |
+        | Email    | plok@cin.ufpe.br   |
+        | CPF      | 113113113-11       |
         | Telefone | 8193333-3333       |
     And seleciono a opção "Cadastrar"
     Then permaneço na página "Cadastro de Usuário"
@@ -46,9 +46,9 @@ Scenario: Falha no cadastro por informações únicas repetidas pela interface
 Scenario: Falha no cadastro por Senha pequena pela interface
     Given estou na página de "Cadastro de Usuário"
     When preencho os campos:
-    | Nome     | Neymar             |
-    | Senha    | senha              |
-    | E-mail   | uva@cin.ufpe.br    |
+    | Name     | Neymar             |
+    | Password    | senha              |
+    | Email   | uva@cin.ufpe.br    |
     | CPF      | 777777777-77     |
     | Telefone | 8197777-7777       |
     And seleciono a opção "Cadastrar"
@@ -98,57 +98,63 @@ Scenario: Falha na edição por tentar alterar senha para uma inválida pela int
 
 
 @api @cadastro_sucesso
-Scenario: Cadastro de usuário com sucesso
-    Given não existe usuário com CPF "123123123-12" no sistema
+Scenario: Cadastro de usuário com sucesso via API
+    Given não existe um usuário com CPF "12312312312" no sistema
     When é enviada uma requisição para cadastrar um novo user com:
-        | Nome      | João              |
-        | Senha     | senha10           |
-        | CPF       | 123.123.123-12    |
-        | E-mail    | dggb@cin.ufpe.br  |
-    Then o sistema retorna a mensagem "Usuário cadastrado!"
-    And o novo usuário de CPF "123123123-12" faz parte do sistema
+        | Name     | João             |
+        | Password | senha10          |
+        | CPF      | 12312312312      |
+        | Email    | dggb@cin.ufpe.br |
+        | Telefone | 81995555555      |
+    Then o sistema retorna a mensagem "Usuário cadastrado com sucesso"
+    And o novo usuário de CPF "12312312312" faz parte do sistema
 
 @api @cadastro_falha_falta
 Scenario: Falha no cadastro por falta de informações
     Given não existe um usuário com CPF "321321321-24" no sistema
     When é enviada uma requisição para cadastrar um novo user com:
-        | Nome      | Fernando          |
-        | Senha     | senha11           |
-        | E-mail    | dfer@cin.ufpe.br  |
+        | Name      | Fernando          |
+        | Password     | senha11           |
+        | Email    | dfer@cin.ufpe.br  |
         | Telefone  | 8194444-4444      |
-    Then o sistema retorna a mensagem "CPF é obrigatório"
+    Then o sistema retorna a mensagem "Elementos faltando"
     And não existe usuário de CPF "321321321-24" cadastrado no sistema
 
 @api @cadastro_falha_senha
 Scenario: Falha no cadastro por Senha pequena
-    Given não existe um usuário de CPF "343343343-34" no sistema
+    Given não existe um usuário com CPF "343343343-34" no sistema
     When é enviada uma requisição para cadastrar um novo user com:
-        | Nome      | Rafael            |
-        | Senha     | senha             |
-        | E-mail    | mfg2@cin.ufpe.br  |
+        | Name      | Rafael            |
+        | Password     | senha             |
+        | Email    | mfg2@cin.ufpe.br  |
         | CPF       | 444444444-44      |
         | Telefone  | 8190000-1111      |
     Then o sistema retorna a mensagem "A senha deve ter 6 ou mais caracteres"
     And o usuário de CPF "343343343-34" não está cadastrado no sistema
 
 @api @cadastro_falha_repetir
-Scenario: Falha no cadastro por informações repetidas entre usuários
+Scenario: Falha no cadastro por informações repetidas via API
     Given existe um usuário de CPF "113113113-11" no sistema
-    When é enviada uma requisição para cadastrar um novo user com CPF igual a "113113113-11"
-    Then o sistema retorna a mensagem "Já existe usuário com este CPF"
-    And o usuário de Email "plok@cin.ufpe.br" não está cadastrado no sistema
+    When é enviada uma requisição para cadastrar um novo user com:
+    | Name     | Valdemar           |
+    | Password | senha12            |
+    | Email    | plok@cin.ufpe.br   |
+    | CPF      | 113113113-11       |
+    | Telefone | 8193333-3333       |
+    Then o sistema retorna a mensagem "Já existe usuário"
+    And o usuário de email "b@cin.com" não foi registrado no sistema
 
 @api @delecao_sucesso
 Scenario: Autorremoção de usuário com sucesso
     Given existe um usuário de CPF "234234234-23" no sistema
-    When é enviada uma requesição para remover o usuário com CPF igual à "234234234-23"
+    When é enviada uma requisição para remover o usuário com CPF igual à "234234234-23"
     Then o sistema retorna a mensagem "Removido com sucesso"
-    And não existe usuário de CPF "234234234-23" no sistema
+    And não existe usuário de CPF "234234234-23" cadastrado no sistema
 
 @api @edicao_sucesso
 Scenario: Edição de usuário com sucesso
     Given existe um usuário com nome "Valdermar" e CPF "121121121-12" no sistema
-    When é enviada uma requesição para mudar o seu nome para "jorge10"
+    When é enviada uma requisição para mudar o seu nome para "jorge10"
     Then o campo nome do usuário de CPF "121121121-12" é alterado para "jorge10"
     And o sistema retorna a mensagem "Edição concluída" 
 
@@ -156,13 +162,13 @@ Scenario: Edição de usuário com sucesso
 Scenario: Falha na edição por informações repetidas entre usuários
     Given existe um usuário de CPF "100100100-10" no sistema
     And existe um usuário de CPF "120120120-12" no sistema
-    When o usuário de CPF "100100100-10" envia um requesição para editar seu CPF para "120120120-12"
+    When o usuário de CPF "100100100-10" envia uma requisição para editar seu CPF para "120120120-12"
     Then o usuário continua com o CPF "100100100-10"
-    And o sistema retorna a mensagem "Já existe usuário com esse CPF"
+    And o sistema retorna a mensagem "Email ou CPF em uso"
 
 @api @edicao_falha_senha
 Scenario: Falha na edição por tentar alterar senha para uma inválida
     Given existe um usuário de CPF "300300300-30" e de senha "123456" no sistema
-    When ele envia uma requesição para editar sua senha para "12345"
+    When ele envia uma requisição para editar sua senha para "12345"
     Then o usuário de CPF "300300300-30" continua com a senha "123456"
     And o sistema retorna a mensagem "A senha deve ter 6 ou mais caracteres"
