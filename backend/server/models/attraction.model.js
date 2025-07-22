@@ -6,11 +6,11 @@ const reviewSchema = new mongoose.Schema({
   data: Date
 });
 
-const attracionSchema = new mongoose.Schema({
+const attractionSchema = new mongoose.Schema({
   nome: { type: String, required: true },
   descricao: String,
   reviews: [reviewSchema]
 }, { timestamps: true });
 
-const Atracao = mongoose.model("Attracion", attracionSchema);
-export default Attracion;
+const Attraction = mongoose.model("Attraction", attractionSchema);
+export default Attraction;

@@ -15,7 +15,7 @@ router.post('/create', createAttraction);
 router.post('/:name/review', sendReview);
 
 // GET
-router.get('/', getAllAtration);
+router.get('/', getAllAttraction);
 router.get('/:name/review', getReview);
 router.get('/:name', detailAttraction);
 
