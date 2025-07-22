@@ -7,7 +7,6 @@ import {
     buscarReservaPorID,
     buscarReservasPorCPF,
     buscarReservasPorIntervalo,
-    taxaOcupacao,
     historicoHospede,
     reservasFuturtasQuarto
 } from "../controllers/admin.reservation.controller.js";
@@ -19,7 +18,6 @@ const router = express.Router();
 // GET
 router.get("/", listarReservas); // Listar todas
 router.get("/intervalo", buscarReservasPorIntervalo); // Buscar por intervalo de datas
-router.get("/taxa", taxaOcupacao); // Ver taxa de ocupação
 router.get("/historico/:cpf", historicoHospede); // Histórico de um hóspede
 router.get("/futuras/:quarto", reservasFuturtasQuarto); // Reservas futuras de um quarto
 router.get("/cpf/:cpf", buscarReservasPorCPF); // Buscar todas as reservas por CPF do hóspede
