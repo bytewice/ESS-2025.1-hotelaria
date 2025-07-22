@@ -105,7 +105,6 @@ Scenario: Cadastro de usuário com sucesso
         | Senha     | senha10           |
         | CPF       | 123.123.123-12    |
         | E-mail    | dggb@cin.ufpe.br  |
-        | Telefone  | 8199555-5555      |
     Then o sistema retorna a mensagem "Usuário cadastrado!"
     And o novo usuário de CPF "123123123-12" faz parte do sistema
 
@@ -135,12 +134,7 @@ Scenario: Falha no cadastro por Senha pequena
 @api @cadastro_falha_repetir
 Scenario: Falha no cadastro por informações repetidas entre usuários
     Given existe um usuário de CPF "113113113-11" no sistema
-    When é enviada uma requisição para cadastrar um novo user com:
-        | Nome      | Valdemar          |
-        | Senha     | senha12           |
-        | E-mail    | plok@cin.ufpe.br  |
-        | CPF       | 113113113-11      |
-        | Telefone  | 8193333-3333      |
+    When é enviada uma requisição para cadastrar um novo user com CPF igual a "113113113-11"
     Then o sistema retorna a mensagem "Já existe usuário com este CPF"
     And o usuário de Email "plok@cin.ufpe.br" não está cadastrado no sistema
 
