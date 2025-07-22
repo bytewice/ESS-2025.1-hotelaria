@@ -10,7 +10,7 @@ import {
     taxaOcupacao,
     historicoHospede,
     reservasFuturtasQuarto
-} from "../controllers/reservation.controller.js";
+} from "../controllers/admin.reservation.controller.js";
 
 const router = express.Router();
 
