@@ -20,7 +20,6 @@ router.get("/", listarReservas); // Listar todas
 router.get("/intervalo", buscarReservasPorIntervalo); // Buscar por intervalo de datas
 router.get("/historico/:cpf", historicoHospede); // Histórico de um hóspede
 router.get("/futuras/:quarto", reservasFuturtasQuarto); // Reservas futuras de um quarto
-router.get("/cpf/:cpf", buscarReservasPorCPF); // Buscar todas as reservas por CPF do hóspede
 router.get("/id/:id", buscarReservaPorID); // Buscar reserva por ID
 
 // POST
