@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 
 const reviewSchema = new mongoose.Schema({
+  userName: String,
   comentario: String,
   nota: Number,
   data: Date

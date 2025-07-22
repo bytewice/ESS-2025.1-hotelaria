@@ -53,14 +53,14 @@ export const getReview = async (req, res) => {
 export const sendReview = async (req, res) => {
   try {
     const { name } = req.params;
-    const { comentario, nota } = req.body;
+    const { userName,comentario, nota } = req.body;
 
     const attraction = await Attraction.findOne({ nome: name });
     if (!attraction) {
       return res.status(404).json({ error: "attraction não encontrada" });
     }
 
-    const review = { comentario, nota, data: new Date() };
+    const review = { userName,comentario, nota, data: new Date() };
     attraction.reviews.push(review); 
 
     await attraction.save();

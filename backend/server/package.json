@@ -15,5 +15,14 @@
     "dev": "nodemon index.js",
     "seed:admin": "node ./seeds/seedAdmin.js"
   },
-  "type": "module"
+  "type": "module",
+  "devDependencies": {
+    "@babel/core": "^7.28.0",
+    "@babel/preset-env": "^7.28.0",
+    "@cucumber/cucumber": "^12.1.0",
+    "babel-jest": "^30.0.5",
+    "jest": "^30.0.4",
+    "jest-cucumber": "^4.5.0",
+    "supertest": "^7.1.3"
+  }
 }
