@@ -23,7 +23,7 @@ import mongoose from 'mongoose';
 
 
 
-const feature = loadFeature('features/attraction.feature');
+const feature = loadFeature('../../features/attraction.feature');
 
 defineFeature(feature, test => {
   let response;
