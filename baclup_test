@@ -1,0 +1,119 @@
+import { defineFeature, loadFeature } from 'jest-cucumber';
+import supertest from 'supertest';
+import mongoose from 'mongoose';
+import credit_card from '../../models/credit_cards.model';
+
+// Mock do modelo
+jest.mock('../../models/credit_cards.model');
+
+const feature = loadFeature('./features/cartao_credito.feature');
+
+defineFeature(feature, (test) => {
+  let mockCreditCardModel: mongoose.Model<any>;
+  let response: supertest.Response;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+    mockCreditCardModel = credit_card as jest.Mocked<typeof credit_card>;
+  });
+
+  test('Cadastro de cartão de crédito válido', ({ given, when, then }) => {
+    given('não existe um cartão com o número 4111111111111111', async () => {
+      mockCreditCardModel.findOne.mockResolvedValue(null);
+    });
+
+    when('cadastro um novo cartão com dados válidos', async () => {
+      mockCreditCardModel.create.mockResolvedValue({
+        _id: new mongoose.Types.ObjectId(),
+        nome_cartao: 'Cartão Gold',
+        nome: 'Fulano de Tal',
+        numero_cartao: 4111111111111111,
+        validade: '12/2025',
+        CVV: 123,
+        createdAt: new Date()
+      });
+
+      response = await supertest(app)
+        .post('/api/credit-cards')
+        .send({
+          nome_cartao: 'Cartão Gold',
+          nome: 'Fulano de Tal',
+          numero_cartao: 4111111111111111,
+          validade: '12/2025',
+          CVV: 123
+        });
+    });
+
+    then('deve retornar status 201 com os dados do cartão', () => {
+      expect(response.status).toBe(201);
+      expect(response.body).toHaveProperty('nome_cartao', 'Cartão Gold');
+      expect(response.body).toHaveProperty('numero_cartao', '4111111111111111');
+    });
+
+    then('o cartão deve ser salvo no banco de dados', () => {
+      expect(mockCreditCardModel.create).toHaveBeenCalledWith({
+        nome_cartao: 'Cartão Gold',
+        nome: 'Fulano de Tal',
+        numero_cartao: 4111111111111111,
+        validade: '12/2025',
+        CVV: 123
+      });
+    });
+  });
+
+  test('Tentar cadastrar cartão com número duplicado', ({ given, when, then }) => {
+    given('já existe um cartão com número 4111111111111111', async () => {
+      mockCreditCardModel.findOne.mockResolvedValue({
+        _id: new mongoose.Types.ObjectId(),
+        numero_cartao: 4111111111111111
+      });
+    });
+
+    when('tento cadastrar outro cartão com o mesmo número', async () => {
+      response = await supertest(app)
+        .post('/api/credit-cards')
+        .send({
+          nome_cartao: 'Cartão Novo',
+          nome: 'Outra Pessoa',
+          numero_cartao: 4111111111111111, // Número duplicado
+          validade: '01/2026',
+          CVV: 456
+        });
+    });
+
+    then('deve retornar erro 400', () => {
+      expect(response.status).toBe(400);
+    });
+
+    then('a mensagem deve indicar "Número de cartão já existe"', () => {
+      expect(response.body).toHaveProperty('message', 'Número de cartão já existe');
+    });
+  });
+});
+
+
+
+Scenario: Cadastro bem-sucedido
+Given os dados válidos de um cartão:
+  | nome_cartao | nome      | numero_cartao | validade | CVV |
+  | Cartão Gold | João Silva| 1234567812345678 | 12/25   | 123 |
+When faço uma requisição POST para "/credit_cards" com esses dados
+Then a resposta deve ter status 201
+And o corpo da resposta deve conter o ID do novo cartão
+And o sistema deve persistir os dados do cartão
+
+Scenario: Atualização bem-sucedida
+Given existe um cartão com ID "507f191e810c19729de860ea" no sistema
+And os novos dados:
+  | nome_cartao | nome      |
+  | Cartão Black| João Souza|
+When faço uma requisição PUT para "/credit_cards/507f191e810c19729de860ea" com esses dados
+Then a resposta deve ter status 200
+And o corpo da resposta deve refletir os dados atualizados
+And o sistema deve atualizar o cartão no banco de dados
+
+Scenario: Exclusão bem-sucedida
+Given existe um cartão com ID "507f191e810c19729de860ea" no sistema
+When faço uma requisição DELETE para "/credit_cards/507f191e810c19729de860ea"
+Then a resposta deve ter status 204
+And o cartão deve ser removido do banco de dados

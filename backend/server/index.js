@@ -1,4 +1,4 @@
-//const express = require('express');
+const express = require('express');
 import express from 'express'
 import dotenv from 'dotenv'
 import cookieParser from 'cookie-parser'
@@ -6,7 +6,7 @@ import cors from 'cors';  // ✅ Import CORS
 
 import connectToMongoDB from './db/connectToMongoDB.js'
 
-const app = express();
+export const app = express();
 dotenv.config()
 
 app.use(cors());
@@ -25,7 +25,9 @@ app.use(cookieParser())
  app.use('/credit_cards', creditCardRoutes)
  app.use('/promotions', promotionRoutes)
 
-app.listen(4000, () => {
-  connectToMongoDB()
-  console.log("Running at Port 4000")
-});
+ if (require.main === module) {
+  app.listen(4000, () => {
+    connectToMongoDB();
+    console.log("Running at Port 4000");
+  });
+};
