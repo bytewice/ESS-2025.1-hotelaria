@@ -1,5 +1,5 @@
 import Reservation from "../models/admin.reservation.model.js";
-import {verificarConflito, calcularTaxaDeOcupacao } from "../services/admin.reservation.services.js"
+import {verificarConflito, calcularTaxaDeOcupacao } from "../services/reservation.services.js"
 
 const gerarCodigoReserva = async () => {
     const ultimaReserva = await Reservation.findOne().sort({codigoReserva: -1}).limit(1);
@@ -65,7 +65,7 @@ export const editarReserva = async (req, res) => {
 
     res.json({mensagem: "Reserva atualizada com sucesso", reverva});
     } catch(error) {
-        res.status(500).json({erro: error.mensage});
+        res.status(500).json({erro: error.message});
     }
 };
 
@@ -78,7 +78,7 @@ export const excluirReserva = async (req, res) => {
 
         res.json({mensagem: "Reserva excluída com sucesso"});
     }catch(erorr){
-        res.status(500).json({erro: error.mensage});
+        res.status(500).json({erro: error.message});
     }
 };
 
@@ -88,7 +88,7 @@ export const listarReservas = async (req, res) => {
         const reservas = await Reservation.find().sort({checkIn: 1});
         res.json(reservas);
     }catch(error){
-        res.status(500).json({erro: error.mensage});
+        res.status(500).json({erro: error.message});
     }
 };
 
@@ -126,7 +126,6 @@ export async function buscarReservaPorID(req, res) {
   }
 }
 
-
 //Buscar reservas por intervalo de datas
 export const buscarReservasPorIntervalo = async (req, res) => {
     try{
@@ -137,9 +136,9 @@ export const buscarReservasPorIntervalo = async (req, res) => {
         });
         res.json(reservas)
     } catch (error) {
-        res.status(500).json({erro: error.mensage});
+        res.status(500).json({erro: error.message});
     }
-};
+}; 
 
 //Ver histórico de um hóspede
 export const historicoHospede = async (req, res) => {
@@ -148,7 +147,7 @@ export const historicoHospede = async (req, res) => {
         const reservas = await Reservation.find({hospedeCpf: cpf}).sort({checkIn: -1});
         res.json(reservas);
     }catch (error) {
-        res.status(500).json({erro: error.mensage});
+        res.status(500).json({erro: error.message});
     }
 }
 
@@ -163,6 +162,6 @@ export const reservasFuturtasQuarto = async (req, res) => {
         }).sort({checkIn: 1});
         res.json(reservas);
     }catch (error) {
-        res.status(500).json({erro: error.mensage});
+        res.status(500).json({erro: error.message});
     }
 }
