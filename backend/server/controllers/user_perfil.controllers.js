@@ -2,40 +2,31 @@ import generateTokenAndSetCookie from '../utils/generateToken.js'
 import User from '../models/user.model.js'
 import UserComum from '../models/user_comum.model.js'
 import bcrypt from 'bcryptjs'
-import { parseArgs } from 'util'
 
-export const signupUser = async(req, res) => {
-    try{
+export const signupUser = async (req, res) => {
+    try {
+        const { Name, Email, CPF, Password, Telefone } = req.body || {}
 
-        const {Name, Email, CPF, Password, ConfirmPassword, Telefone} = req.body
-
-        if(!Name||!Email||!CPF||!Password){
+        if (!Name || !Email || !CPF || !Password) {
             console.log("Required elements missing")
             return res.status(400).json({
-                error: "Required elements missing"
+                error: "Elementos faltando"
             })
         }
 
-        if(Password !== ConfirmPassword){
-            console.log("Password don't match")
+        if (Password.length < 6) {
+            console.log("A senha deve ter 6 ou mais caracteres")
             return res.status(400).json({
-                error: "Password don't match"
+                error: "A senha deve ter 6 ou mais caracteres"
             })
         }
 
-        if(Password.lengh() < 6){
-            console.log("Password must be at least 6 digits")
-            return res.status(400).json({
-                error: "Password must be at least 6 digits"
-            })
-        }
+        const user = await User.findOne({ $or: [{ CPF }, { Email }] })
 
-        const user = await User.findOne({$or: [{CPF:CPF}, {Email:Email}]})
-
-        if(user){
-            console.log("User already exist")
+        if (user) {
+            console.log("Já existe usuário")
             return res.status(400).json({
-                error: "User already exist"
+                error: "Já existe usuário"
             })
         }
 
@@ -52,17 +43,18 @@ export const signupUser = async(req, res) => {
             Metodos: [],
         })
 
-        if (newUser) {
-            generateTokenAndSetCookie(newUser._id, res)
-            await newUser.save()
-            res.status(201).json({
-                _id: newUser._id,
-                Name: newUser.Name,
-                Email: newUser.Email,
-                CPF: newUser.CPF,
-                Telefone: newUser.Telefone,
-            })
-        }
+        await newUser.save()
+        generateTokenAndSetCookie(newUser._id, res)
+        res.status(201).json({
+            message: "Usuário cadastrado com sucesso",
+            user:{
+            _id: newUser._id,
+            Name: newUser.Name,
+            Email: newUser.Email,
+            CPF: newUser.CPF,
+            Telefone: newUser.Telefone,
+            }
+        })
 
     } catch (error) {
         console.log("Error in signup:", error.message)
@@ -72,26 +64,36 @@ export const signupUser = async(req, res) => {
     }
 }
 
-export const loginUser = async(req, res) => {
-    try{
-        const {CPF, Password} = req.body
+export const loginUser = async (req, res) => {
+    try {
+        const { CPF, Password } = req.body || {}
         const user = await UserComum.findOne({ CPF })
-        const isPasswordCorrect = await bcrypt.compare(Password, user?.Password || "")
 
-        if (!user || !isPasswordCorrect) { //user nn existe ou senha errada
-            console.log("Invalid credentials")
+        if (!user) {
+            console.log("Invalid credentials - user not found")
             return res.status(400).json({
                 error: "Invalid credentials"
             })
         }
+
+        const isPasswordCorrect = await bcrypt.compare(Password || "", user.Password)
+
+        if (!isPasswordCorrect) {
+            console.log("Invalid credentials - wrong password")
+            return res.status(400).json({
+                error: "Invalid credentials"
+            })
+        }
+
         generateTokenAndSetCookie(user._id, res)
         res.status(200).json({
             _id: user._id,
-            fullName: user.fullName,
-            username: user.username
+            Name: user.Name,
+            Email: user.Email,
+            CPF: user.CPF
         })
 
-    } catch(error){
+    } catch (error) {
         console.log("Error in login:", error.message)
         res.status(500).json({
             error: "Internal Server Error"
@@ -101,7 +103,7 @@ export const loginUser = async(req, res) => {
 
 export const logoutUser = (req, res) => {
     try {
-        res.cookie("jwt", "", { maxAge:0})
+        res.cookie("jwt", "", { maxAge: 0 })
         res.status(200).json({
             message: "Logged out successfully"
         })
@@ -113,35 +115,34 @@ export const logoutUser = (req, res) => {
     }
 }
 
-export const updateUser = async(req,res) => {
-    try{
+export const updateUser = async (req, res) => {
+    try {
         const userId = req.params.id
-        const updates = { ...req.body } //vuneravel, mas ta bom
+        const updates = { ...req.body }
 
-        if(updates.Password){
-            if(updates.Password.lengh()<6){
+        if (updates.Password) {
+            if (updates.Password.length < 6) {
                 return res.status(400).json({
-                error: "Password must be at least 6 digits"
-            })
+                    error: "A senha deve ter 6 ou mais caracteres"
+                })
             }
             updates.Password = await bcrypt.hash(updates.Password, 10)
         }
 
         const orConditions = []
-        if(updates.Email){
-            orConditions.push({Email:updates.Email})
+        if (updates.Email) {
+            orConditions.push({ Email: updates.Email })
         }
-        if(updates.CPF){
-            orConditions.push({CPF:updates.CPF})
+        if (updates.CPF) {
+            orConditions.push({ CPF: updates.CPF })
         }
-        if(orConditions.length()>0){
-            const searchUser = await User.findOne({_id:{$ne:userId},$or:orConditions})
-            if(searchUser){
-                return res.status(400).json({error:"Email or CPF already used"})
+        if (orConditions.length > 0) {
+            const searchUser = await User.findOne({ _id: { $ne: userId }, $or: orConditions })
+            if (searchUser) {
+                return res.status(400).json({ error: "Email ou CPF em uso" })
             }
         }
-        
-        
+
         const updatedUser = await UserComum.findByIdAndUpdate(
             userId,
             updates,
@@ -150,9 +151,9 @@ export const updateUser = async(req,res) => {
         if (!updatedUser) {
             return res.status(404).json({ error: "User not found" })
         }
-        res.status(200).json({message:"User updated", user:updatedUser})
+        res.status(200).json({ message: "Edição concluída", user: updatedUser })
 
-    } catch(error){
+    } catch (error) {
         console.log("Error in Update:", error.message)
         res.status(500).json({
             error: "Internal Server Error"
@@ -160,28 +161,27 @@ export const updateUser = async(req,res) => {
     }
 }
 
-export const deleteUser = async(req, res) => {
-    try{
-        const UserId = req.params.id
-        const user = await UserComum.findByIdAndDelete(UserId)
-        if(!user){
+export const deleteUser = async (req, res) => {
+    try {
+        const userId = req.params.id
+        const user = await UserComum.findByIdAndDelete(userId)
+        if (!user) {
             return res.status(404).json({ error: "User not found" })
         }
-        res.status(200).json({message:"User sucessfully deleted"})
-    } catch(error){
+        res.status(200).json({ message: "Removido com sucesso" })
+    } catch (error) {
         console.log("Error in deleteUser:", error.message)
         res.status(500).json({
             error: "Internal Server Error"
         })
     }
-
 }
 
-export const getAllUser = async(req, res) => {
-    try{
-        const users = await User.find({}) // as chaves em branco indicam uma busca sem filtro
+export const getAllUser = async (req, res) => {
+    try {
+        const users = await UserComum.find({})
         return res.status(200).json(users)
-    } catch(error){
+    } catch (error) {
         console.log("Error in getAllUser:", error.message)
         res.status(500).json({
             error: "Internal Server Error"
@@ -189,15 +189,15 @@ export const getAllUser = async(req, res) => {
     }
 }
 
-export const getUser = async(req, res) => {
-    try{
-        const UserId = req.params.id
-        const user = await UserComum.findById(UserId)
-        if(!user){
-            return res.status(404).json({error:"User not found"})
+export const getUser = async (req, res) => {
+    try {
+        const userId = req.params.id
+        const user = await UserComum.findById(userId)
+        if (!user) {
+            return res.status(404).json({ error: "User not found" })
         }
         res.status(200).json(user)
-    } catch(error){
+    } catch (error) {
         console.log("Error in getUser:", error.message)
         res.status(500).json({
             error: "Internal Server Error"
@@ -205,29 +205,29 @@ export const getUser = async(req, res) => {
     }
 }
 
-export const addMetodo = async(req, res) => {
-    try{
+export const addMetodo = async (req, res) => {
+    try {
         const userId = req.params.id
-        const metodo = req.params.body
+        const { metodo } = req.body
 
-        if(!metodo){
-            return res.status(400).json({ error: "Metodo field is empty"})
+        if (!metodo) {
+            return res.status(400).json({ error: "Metodo field is empty" })
         }
-        const updateMetodo = { $addToSet: {Metodos: metodo}}
+
+        const updateMetodo = { $addToSet: { Metodos: metodo } }
         const updateMetodoUser = await UserComum.findByIdAndUpdate(
-            userId, updateMetodo, {new: true}
+            userId, updateMetodo, { new: true }
         )
-        if(!updateMetodoUser){
-            return res.status(400).json({ error:"User not found"})
+        if (!updateMetodoUser) {
+            return res.status(404).json({ error: "User not found" })
         }
 
         res.status(200).json({ message: "Metodo added", user: updateMetodoUser })
 
-    } catch(error){
-        console.log("Error in addCartao:", error.message)
+    } catch (error) {
+        console.log("Error in addMetodo:", error.message)
         res.status(500).json({
             error: "Internal Server Error"
         })
     }
 }
-

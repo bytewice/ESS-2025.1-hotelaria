@@ -10,13 +10,20 @@
     "nodemon": "^3.1.1",
     "path": "^0.12.7"
   },
-  
   "scripts": {
     "dev": "nodemon index.js",
     "seed:user": "node ./seeds/seedUser.js",
-    "test:api": "cucumber-js --tags 'not @gui'",
+    "test:api:debug": "cucumber-js features --import '.test/**/*.js' --tags \"not @gui\"",
+    "test:api": "cucumber-js --tags \"not @gui\"",
     "test:gui": "cucumber-js --tags '@gui'",
-    "seed:admin": "node ./seeds/seedAdmin.js"
+    "seed:admin": "node ./seeds/seedAdmin.js",
+    "test:final": "cucumber-js features/user_perfil.feature --import test/user_perfil_steps.js --tags \"not @gui\""
   },
-  "type": "module"
+  "type": "module",
+  "devDependencies": {
+    "@cucumber/cucumber": "^12.1.0",
+    "@jest/globals": "^30.0.5",
+    "chai": "^5.2.1",
+    "supertest": "^7.1.3"
+  }
 }
