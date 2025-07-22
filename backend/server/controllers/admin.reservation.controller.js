@@ -97,7 +97,7 @@ export async function buscarReservaPorID(req, res) {
   try {
     const { id } = req.params;
 
-    const reserva = await Reservation.findOne({ id: parseInt(id) });
+    const reserva = await Reservation.findOne({ _id: id });
 
     if (!reserva) {
       return res.status(404).json({ mensagem: "Reserva não encontrada para o ID informado." });
