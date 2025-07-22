@@ -4,6 +4,7 @@ import {
   detailAttraction,
   getReview,
   sendReview,
+  deleteAttraction,
   createAttraction
 } from '../controllers/attraction.controllers.js';
 
@@ -19,4 +20,5 @@ router.get('/', getAllAttraction);
 router.get('/:name/review', getReview);
 router.get('/:name', detailAttraction);
 
+router.delete('/:name/delete', deleteAttraction);
 export default router;

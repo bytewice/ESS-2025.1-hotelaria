@@ -82,3 +82,21 @@ export const createAttraction = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
+
+// 6. Deletar uma attraction
+export const deleteAttraction = async (req, res) => {
+  try {
+    const { name } = req.params;
+
+    const deleted = await Attraction.findOneAndDelete({ nome: name });
+
+    if (!deleted) {
+      return res.status(404).json({ error: "Atração não encontrada." });
+    }
+
+    res.status(200).json({ mensagem: "Atração deletada com sucesso!" });
+  } catch (error) {
+    console.error("Erro ao deletar atração:", error.message);
+    res.status(500).json({ error: "Erro interno no servidor" });
+  }
+};
