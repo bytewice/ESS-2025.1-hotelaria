@@ -92,23 +92,6 @@ export const listarReservas = async (req, res) => {
     }
 };
 
-//Buscar todas as reservas de um cliente (por CPF)
-export async function buscarReservasPorCPF(req, res) {
-  try {
-    const { cpf } = req.params;
-
-    const reservas = await Reservation.find({ "Hospede.User": cpf });
-
-    if (reservas.length === 0) {
-      return res.status(404).json({ mensagem: "Nenhuma reserva encontrada para esse CPF." });
-    }
-
-    res.status(200).json(reservas);
-  } catch (erro) {
-    res.status(500).json({erro: error.message});
-  }
-}
-
 //Buscar uma reserva pelo ID
 export async function buscarReservaPorID(req, res) {
   try {
