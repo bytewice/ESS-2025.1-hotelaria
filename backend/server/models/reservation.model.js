@@ -1,26 +1,33 @@
-import mongoose from "mongoose"; //FORMATO DO MEU DADO NO DB (ENTIDADE/ENTIDADED ASSOCIATIVA)
-//import QUARTO, USER
-// UNICIDADE DE QUARTO X INTERVALO DE TEMPO GARANTIDA NO SERVICE.
+import mongoose from "mongoose";
 
 const reservationSchema = new mongoose.Schema({
     Preco: Number,
     CheckIN: Date,
     CheckOUT: Date,
+    // ALTERAÇÃO: 'Quarto' agora é uma referência de objeto (ObjectId) para o modelo 'Room'.
     Quarto: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Room',
         required: true
     },
+    // ALTERAÇÃO: 'Hospede' agora é uma referência de objeto (ObjectId) para o modelo 'User'.
     Hospede: {
-        User: String,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
         required: true
     },
     Pagamento: {
         type: Number,
-        required:true
-    }
-    // createdAt, updatedAt
-}, {timestamps: true})
+        required: true
+    },
+    // NOVO CAMPO: Para a funcionalidade de compartilhar reserva.
+    sharedWith: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }]
+}, { timestamps: true });
 
-const Reservation = mongoose.model("Reservation", reservationSchema)
+const Reservation = mongoose.model("Reservation", reservationSchema);
 
-export default User
+// ALTERAÇÃO: Exportação corrigida de 'User' para 'Reservation'.
+export default Reservation;

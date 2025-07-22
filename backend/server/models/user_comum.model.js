@@ -8,29 +8,22 @@ const AvaliacaoSchema = new mongoose.Schema({
 })
 
 const MetodoDePagamentoSchema = new mongoose.Schema({
-    tipo: {
-        type: String,
-        required: true,
-    },
-    nome: {
-        type: String,
-        required: true,
-    },
-    //ADICIONAR CARTAO
-    //REMOVER CARTAO
-    //CADASTRO DE PROMOCAO
-    //EDITAR PROMOCAO
-    //REMOVER PROMOCAO
+    tipo: { type: String, required: true },
+    nome: { type: String, required: true },
+    // Detalhes do cartão
+    numero: String,
+    validade: String,
+    cvv: String
 })
 
 const UserComum = User.discriminator("Comum", new mongoose.Schema({
     Telefone: Number,
-    Avaliacoes: {
-        type: [AvaliacaoSchema]
-    },
-    Metodos: {
-        type: [MetodoDePagamentoSchema]
-    }
+    Avaliacoes: [AvaliacaoSchema],
+    Metodos: [MetodoDePagamentoSchema],
+    savedRooms: [{ 
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'Room' 
+    }]
 }))
 
 export default UserComum
