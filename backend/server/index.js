@@ -1,31 +1,40 @@
-//const express = require('express');
-import express from 'express'
-import dotenv from 'dotenv'
-import cookieParser from 'cookie-parser'
-import cors from 'cors';  // ✅ Import CORS
+import express from 'express';
+import dotenv from 'dotenv';
+import cookieParser from 'cookie-parser';
+import cors from 'cors';
+import connectToMongoDB from './db/connectToMongoDB.js'; // Importa a função de conexão
 
-import connectToMongoDB from './db/connectToMongoDB.js'
+dotenv.config();
 
 const app = express();
-dotenv.config()
+const PORT = process.env.PORT || 2000; // Define a porta
 
 app.use(cors());
+app.use(express.json());
+app.use(cookieParser());
 
-app.use(express.json())
-app.use(cookieParser())
+// Importa as rotas
+import userPerfilRoutes from './routes/user_perfil.routes.js';
+import adminRoutes from './routes/admin-users.routes.js';
+import attractionRoutes from './routes/attraction_routes.js';
+//import userReservationRoutes from './routes/user_reservation.routes.js' // Comentado, se não estiver em uso
+import AdminRoutes from './routes/admin.routes.js';
 
-// Routes imports
-import userPerfilRoutes from './routes/user_perfil.routes.js'
-import adminRoutes from './routes/admin-users.routes.js'
 
-app.use('/user', userPerfilRoutes)
-app.use('/admin', adminRoutes)
+// Usa as rotas
+app.use('/attraction', attractionRoutes);
+app.use('/user', userPerfilRoutes);
+app.use('/admin', adminRoutes);
+app.use('/admin', AdminRoutes); // Se AdminRoutes for diferente de adminRoutes
 
+// Exporta a instância do aplicativo Express para uso em testes
+export default app;
+
+// Inicia o servidor e conecta ao MongoDB APENAS se não estiver em ambiente de teste
 if (process.env.NODE_ENV !== 'test') {
-    app.listen(4000, () => {
-        connectToMongoDB();
-        console.log(`Servidor a rodar na porta 4000`);
+    connectToMongoDB();
+    app.listen(PORT, () => {
+        console.log(`Servidor rodando na porta ${PORT}`);
     });
 }
 
-export default app
