@@ -2,20 +2,35 @@ import generateTokenAndSetCookie from '../utils/generateToken.js'
 import User from '../models/user.model.js'
 import UserComum from '../models/user_comum.model.js'
 import bcrypt from 'bcryptjs'
+import { parseArgs } from 'util'
 
 export const signupUser = async(req, res) => {
     try{
 
         const {Name, Email, CPF, Password, ConfirmPassword, Telefone} = req.body
 
+        if(!Name||!Email||!CPF||!Password){
+            console.log("Required elements missing")
+            return res.status(400).json({
+                error: "Required elements missing"
+            })
+        }
+
         if(Password !== ConfirmPassword){
-            console.log("Password don't match");
+            console.log("Password don't match")
             return res.status(400).json({
                 error: "Password don't match"
             })
         }
 
-        const user = await User.findOne({ CPF })
+        if(Password.lengh() < 6){
+            console.log("Password must be at least 6 digits")
+            return res.status(400).json({
+                error: "Password must be at least 6 digits"
+            })
+        }
+
+        const user = await User.findOne({$or: [{CPF:CPF}, {Email:Email}]})
 
         if(user){
             console.log("User already exist")
@@ -24,8 +39,8 @@ export const signupUser = async(req, res) => {
             })
         }
 
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(Password, salt);
+        const salt = await bcrypt.genSalt(10)
+        const hashedPassword = await bcrypt.hash(Password, salt)
 
         const newUser = new UserComum({
             Name,
@@ -101,12 +116,32 @@ export const logoutUser = (req, res) => {
 export const updateUser = async(req,res) => {
     try{
         const userId = req.params.id
-        const updates = { ...req.body }
+        const updates = { ...req.body } //vuneravel, mas ta bom
 
-        if (updates.Password) {
+        if(updates.Password){
+            if(updates.Password.lengh()<6){
+                return res.status(400).json({
+                error: "Password must be at least 6 digits"
+            })
+            }
             updates.Password = await bcrypt.hash(updates.Password, 10)
         }
 
+        const orConditions = []
+        if(updates.Email){
+            orConditions.push({Email:updates.Email})
+        }
+        if(updates.CPF){
+            orConditions.push({CPF:updates.CPF})
+        }
+        if(orConditions.length()>0){
+            const searchUser = await User.findOne({_id:{$ne:userId},$or:orConditions})
+            if(searchUser){
+                return res.status(400).json({error:"Email or CPF already used"})
+            }
+        }
+        
+        
         const updatedUser = await UserComum.findByIdAndUpdate(
             userId,
             updates,

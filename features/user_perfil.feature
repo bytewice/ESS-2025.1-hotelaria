@@ -3,8 +3,8 @@ Feature: Interação com a interface de cadastro, edição e exclusão de usuár
     I want to utilizar a interface gráfica para cadastrar, editar e deletar minha conta
     So that eu possa gerenciar minhas informações diretamente pelo sistema
 
-#GUI SCENARIOS
 
+@gui @cadastro_sucesso
 Scenario: Cadastro de usuário com sucesso pela interface
     Given estou na página de "Cadastro de Usuário"
     When preencho os campos obrigatórios com:
@@ -17,6 +17,7 @@ Scenario: Cadastro de usuário com sucesso pela interface
     Then Vejo a mensagem "Usuário cadastrado!"
     And Sou redirecionado para a página de "Login"
 
+@gui @cadastro_falha_falta
 Scenario: Falha no cadastro por falta de informações obrigatórias pela interface
     Given estou na página de "Cadastro de Usuário"
     When preencho os campos:
@@ -27,6 +28,7 @@ Scenario: Falha no cadastro por falta de informações obrigatórias pela interf
     Then permaneço na página de "Cadastro de Usuário"
     And vejo a mensagem de erro "CPF é obrigatorio"
 
+@gui @cadastro_falha_existe
 Scenario: Falha no cadastro por informações únicas repetidas pela interface
     Given já existe um usuário com CPF "113113113-11" no sistema
     And estou na página de "Cadastro de Usuário"
@@ -40,6 +42,7 @@ Scenario: Falha no cadastro por informações únicas repetidas pela interface
     Then permaneço na página "Cadastro de Usuário"
     And vejo a mensagem de erro "Já existe um usuário com este CPF"
 
+@gui @cadastro_falha_senha
 Scenario: Falha no cadastro por Senha pequena pela interface
     Given estou na página de "Cadastro de Usuário"
     When preencho os campos:
@@ -52,6 +55,7 @@ Scenario: Falha no cadastro por Senha pequena pela interface
     Then permaneço na página "Cadastro de Usuário"
     And vejo a mensagem de erro "A senha deve ter 6 ou mais caracteres"
 
+@gui @delecao_sucesso
 Scenario: Autorremoção de usuário com sucesso pela interface
     Given estou logado como o usuário com CPF "234234234-23"
     And estou na página de "Perfil do Usuário"
@@ -60,6 +64,7 @@ Scenario: Autorremoção de usuário com sucesso pela interface
     Then vejo a mensagem "Removido com Sucesso"
     And sou redirecionado para a "Página Inicial"
 
+@gui @edicao_sucesso
 Scenario: Edição de usuário com sucesso pela interface
     Given estou logado como o usuário de CPF "345345345-34"
     And minha senha é "senhasenha"
@@ -70,9 +75,10 @@ Scenario: Edição de usuário com sucesso pela interface
     And permaneço na página de "Perfil do Usuário"
     And o campo senha agora é "123456789"
 
+@gui @edicao_falha_repetido
 Scenario: Falha na edição por informações repetidas entre usuários pela interface
     Given estou logado como o usuário de CPF "123456789-12"
-    And existe um usuário de CPF "234567890-21"
+    And existe um usuário de CPF "234567890-21" no sistema
     And estou na página de "Perfil do Usuário"
     When seleciono a opção "Editar Usuário"
     And altero o campo CPF para "234567890-21"
@@ -80,6 +86,7 @@ Scenario: Falha na edição por informações repetidas entre usuários pela int
     And permaneço na página de "Perfil do Usuário"
     And o campo CPF continua sendo "123456789-12"
 
+@gui @edicao_falha_senha
 Scenario: Falha na edição por tentar alterar senha para uma inválida pela interface
     Given estou logado como o usuário de CPF "123456789-12" com a senha "1234567"
     And estou na página de "Perfil do Usuário"
@@ -89,11 +96,10 @@ Scenario: Falha na edição por tentar alterar senha para uma inválida pela int
     And permaneço na página de "Perfil do Usuário"
     And o campo senha continua sendo "1234567"
 
-#SERVICE SCENARIOS -------------------------------------------------------------------------
 
+@api @cadastro_sucesso
 Scenario: Cadastro de usuário com sucesso
-    Given não existe usuário com CPF "123123123-12"
-    And não existe usuário com esse CPF
+    Given não existe usuário com CPF "123123123-12" no sistema
     When é enviada uma requisição para cadastrar um novo user com:
         | Nome      | João              |
         | Senha     | senha10           |
@@ -103,8 +109,9 @@ Scenario: Cadastro de usuário com sucesso
     Then o sistema retorna a mensagem "Usuário cadastrado!"
     And o novo usuário de CPF "123123123-12" faz parte do sistema
 
+@api @cadastro_falha_falta
 Scenario: Falha no cadastro por falta de informações
-    Given não existe usuário com CPF "321321321-24"
+    Given não existe um usuário com CPF "321321321-24" no sistema
     When é enviada uma requisição para cadastrar um novo user com:
         | Nome      | Fernando          |
         | Senha     | senha11           |
@@ -113,8 +120,9 @@ Scenario: Falha no cadastro por falta de informações
     Then o sistema retorna a mensagem "CPF é obrigatório"
     And não existe usuário de CPF "321321321-24" cadastrado no sistema
 
+@api @cadastro_falha_senha
 Scenario: Falha no cadastro por Senha pequena
-    Given não existe um usuário de CPF "343343343-34" cadastrado no sistema
+    Given não existe um usuário de CPF "343343343-34" no sistema
     When é enviada uma requisição para cadastrar um novo user com:
         | Nome      | Rafael            |
         | Senha     | senha             |
@@ -124,8 +132,9 @@ Scenario: Falha no cadastro por Senha pequena
     Then o sistema retorna a mensagem "A senha deve ter 6 ou mais caracteres"
     And o usuário de CPF "343343343-34" não está cadastrado no sistema
 
+@api @cadastro_falha_repetir
 Scenario: Falha no cadastro por informações repetidas entre usuários
-    Given existe um usuário de CPF "113113113-11"
+    Given existe um usuário de CPF "113113113-11" no sistema
     When é enviada uma requisição para cadastrar um novo user com:
         | Nome      | Valdemar          |
         | Senha     | senha12           |
@@ -133,34 +142,33 @@ Scenario: Falha no cadastro por informações repetidas entre usuários
         | CPF       | 113113113-11      |
         | Telefone  | 8193333-3333      |
     Then o sistema retorna a mensagem "Já existe usuário com este CPF"
-    And o usuário de CPF "113113113-11" não está cadastrado no sistema
+    And o usuário de Email "plok@cin.ufpe.br" não está cadastrado no sistema
 
+@api @delecao_sucesso
 Scenario: Autorremoção de usuário com sucesso
     Given existe um usuário de CPF "234234234-23" no sistema
-    When é enviada uma requesição para remover o usuário com CPF igual à "234234123-19"
+    When é enviada uma requesição para remover o usuário com CPF igual à "234234234-23"
     Then o sistema retorna a mensagem "Removido com sucesso"
     And não existe usuário de CPF "234234234-23" no sistema
 
+@api @edicao_sucesso
 Scenario: Edição de usuário com sucesso
-    Given existe um usuário com:
-        | Nome      | Valdemar          |
-        | Senha     | senha13           |
-        | CPF       | 121121121-12      |
-        | E-mail    | minu@cin.ufpe.br  |
-        | Telefone  | 8192222-2222      |
-    When é enviada uma requesição para mudar a senha do usuário de CPF "121121121-12" para "jorge10"
-    Then o campo senha do usuário de CPF "121121121-12" é alterado para "jorge10"
+    Given existe um usuário com nome "Valdermar" e CPF "121121121-12" no sistema
+    When é enviada uma requesição para mudar o seu nome para "jorge10"
+    Then o campo nome do usuário de CPF "121121121-12" é alterado para "jorge10"
     And o sistema retorna a mensagem "Edição concluída" 
 
+@api @edicao_falha_repetir
 Scenario: Falha na edição por informações repetidas entre usuários
-    Given existe um usuário de CPF "100100100-10"
-    And existe um outro usuário de CPF "120120120-12"
+    Given existe um usuário de CPF "100100100-10" no sistema
+    And existe um usuário de CPF "120120120-12" no sistema
     When o usuário de CPF "100100100-10" envia um requesição para editar seu CPF para "120120120-12"
     Then o usuário continua com o CPF "100100100-10"
     And o sistema retorna a mensagem "Já existe usuário com esse CPF"
 
+@api @edicao_falha_senha
 Scenario: Falha na edição por tentar alterar senha para uma inválida
-    Given existe um usuário de CPF "300300300-30" e de senha "123456"
+    Given existe um usuário de CPF "300300300-30" e de senha "123456" no sistema
     When ele envia uma requesição para editar sua senha para "12345"
     Then o usuário de CPF "300300300-30" continua com a senha "123456"
     And o sistema retorna a mensagem "A senha deve ter 6 ou mais caracteres"

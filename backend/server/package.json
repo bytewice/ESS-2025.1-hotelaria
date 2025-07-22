@@ -11,7 +11,10 @@
     "path": "^0.12.7"
   },
   "scripts": {
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "seed:user": "node ./seeds/seedUser.js",
+    "test:api": "cucumber-js --tags 'not @gui'",
+    "test:gui": "cucumber-js --tags '@gui'"
   },
   "type": "module"
 }

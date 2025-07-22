@@ -9,8 +9,8 @@ router.get('/', getAllUser)
 router.get('/:id', getUser)
 
 // POST
-router.post('/signup', signupUser) //create?
-router.post('/:id/metodo', addMetodo)
+router.post('/signup', signupUser)
+//router.post('/:id/metodo', addMetodo)
 
 // PUT
 router.put('/:id', updateUser)
