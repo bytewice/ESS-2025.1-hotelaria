@@ -12,24 +12,20 @@ const router = express.Router()
 /* JSON */
 
 // GET
-router.get('/', identifyUser, authorizeRole(['admin','seed']), getAllUser)
-router.get('/all', identifyUser, authorizeRole(['seed']), getAllAdmins)
-router.get('/:id', identifyUser, authorizeRole(['admin','seed']), getUser)
+router.get('/all-users', identifyUser, authorizeRole(['admin','seed']), getAllUser)
+router.get('/all-admin', identifyUser, authorizeRole(['seed']), getAllAdmins)
+router.get('/get-user/:id', identifyUser, authorizeRole(['admin','seed']), getUser)
 
 // POST
-router.post('/register', identifyUser, authorizeRole(['admin','seed']), signupUser)
+router.post('/register-user', identifyUser, authorizeRole(['admin','seed']), signupUser)
 router.post('/register-admin', identifyUser, authorizeRole(['seed']),createAdmin); // Criar um novo administrador
 //router.post('/offers', identifyUser, authorizeRole['admin','manager','publi'], post_offer)
 
 // PUT
-router.put('/:id', identifyUser, authorizeRole(['admin','seed']), updateUser)
+router.put('/update-user/:id', identifyUser, authorizeRole(['admin','seed']), updateUser)
 
 // DELETE
-//router.delete('/admins/:id', deleteAdmin); // Deletar um administrador router.delete('/:id', deleteUser)
-router.delete('/user/:id', identifyUser, authorizeRole(['admin','seed']), deleteUser)
-router.delete('/delete/:id', identifyUser, authorizeRole(['seed']), deleteAdmin)
-
-// ... lembrar de colocar isso no index.js para aplicar tambem antes de entrar em /admin
-//router.get('/users', identifyUser, isAdmin, getAllUser);
+router.delete('/delete-user/:id', identifyUser, authorizeRole(['admin','seed']), deleteUser)
+router.delete('/delete-admin/:id', identifyUser, authorizeRole(['seed']), deleteAdmin)
 
 export default router
