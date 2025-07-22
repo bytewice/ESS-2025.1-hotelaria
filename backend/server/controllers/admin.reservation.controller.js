@@ -141,17 +141,6 @@ export const buscarReservasPorIntervalo = async (req, res) => {
     }
 };
 
-//Verificar disponibilidade de quarto
-export const taxaOcupacao = async (req, res) => {
-    try{
-        const {inicio, fim} = req.query;
-        const taxa = await calcularTaxaDeOcupacao(inicio, fim);
-        req.json({taxaOcupacao: '${taxa}%'});
-    }catch (error) {
-        res.status(500).json({erro: error.mensage});
-    }
-};
-
 //Ver histórico de um hóspede
 export const historicoHospede = async (req, res) => {
     try{
