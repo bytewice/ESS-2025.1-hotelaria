@@ -17,9 +17,11 @@ app.use(cookieParser())
 // Routes imports
 import userPerfilRoutes from './routes/user_perfil.routes.js'
 import adminRoutes from './routes/admin-users.routes.js'
+import reservationRoutes from "./routes/reservation.routes.js";
 
 app.use('/user', userPerfilRoutes)
 app.use('/admin', adminRoutes)
+app.use("/reservas", reservationRoutes);
 
 app.listen(3000, () => {
   connectToMongoDB()
