@@ -53,15 +53,20 @@ export const getReview = async (req, res) => {
 export const sendReview = async (req, res) => {
   try {
     const { name } = req.params;
-    const { userName,comentario, nota } = req.body;
+    const { userName, comentario, nota } = req.body;
+
+    // Verifica se a nota foi enviada
+    if (nota === undefined) {
+      return res.status(400).json({ error: "Campo 'nota' é obrigatório" });
+    }
 
     const attraction = await Attraction.findOne({ nome: name });
     if (!attraction) {
       return res.status(404).json({ error: "attraction não encontrada" });
     }
 
-    const review = { userName,comentario, nota, data: new Date() };
-    attraction.reviews.push(review); 
+    const review = { userName, comentario, nota, data: new Date() };
+    attraction.reviews.push(review);
 
     await attraction.save();
     res.status(201).json({ mensagem: "Review adicionada com sucesso!" });
@@ -69,7 +74,7 @@ export const sendReview = async (req, res) => {
     console.log("Error in sendReview:", error.message);
     res.status(500).json({ error: "Internal Server Error" });
   }
-};
+}
 
 // 5. Criar uma nova attraction
 export const createAttraction = async (req, res) => {
@@ -97,6 +102,16 @@ export const deleteAttraction = async (req, res) => {
     res.status(200).json({ mensagem: "Atração deletada com sucesso!" });
   } catch (error) {
     console.error("Erro ao deletar atração:", error.message);
+    res.status(500).json({ error: "Erro interno no servidor" });
+  }
+};
+// 7. Deletar todas as atrações
+export const deleteAllAttractions = async (req, res) => {
+  try {
+    await Attraction.deleteMany({});
+    res.status(200).json({ mensagem: "Todas as atrações foram deletadas com sucesso." });
+  } catch (error) {
+    console.error("Erro ao deletar todas as atrações:", error.message);
     res.status(500).json({ error: "Erro interno no servidor" });
   }
 };

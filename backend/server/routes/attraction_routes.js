@@ -5,7 +5,8 @@ import {
   getReview,
   sendReview,
   deleteAttraction,
-  createAttraction
+  createAttraction,
+  deleteAllAttractions
 } from '../controllers/attraction.controllers.js';
 
 const router = express.Router();
@@ -21,4 +22,5 @@ router.get('/:name/review', getReview);
 router.get('/:name', detailAttraction);
 
 router.delete('/:name/delete', deleteAttraction);
+router.delete('/delete', deleteAllAttractions);
 export default router;
