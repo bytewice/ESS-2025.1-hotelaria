@@ -4,7 +4,7 @@ import bcrypt from 'bcryptjs'; // Importe o bcryptjs para hashear senhas
 export const getAllAdmins = async (req, res) => {
     try {
         const admins = await User.find({
-            role: { $in: ['admin', 'seed'] } // $in operador para buscar documentos onde 'role' está em uma lista
+            Role: { $in: ['admin', 'seed'] } // $in operador para buscar documentos onde 'Role' está em uma lista
         }).select('-Password'); // Exclui o campo de senha da resposta por segurança
 
         if (!admins || admins.length === 0) {
@@ -49,13 +49,13 @@ export const createAdmin = async (req, res) => {
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(Password, salt);
 
-        // 4. Cria uma nova instância de Usuário com a role 'admin'
+        // 4. Cria uma nova instância de Usuário com a Role 'admin'
         const newAdmin = new User({
             Name,
             Email,
             CPF,
             Password: hashedPassword,
-            role: 'admin'  // Define explicitamente a role como 'admin'
+            Role: 'admin'  // Define explicitamente a Role como 'admin'
         });
 
         // 5. Salva o novo administrador no banco de dados
@@ -68,7 +68,7 @@ export const createAdmin = async (req, res) => {
                 Email: newAdmin.Email,
                 CPF: newAdmin.CPF,
                 Telefone: newAdmin.Telefone,
-                role: newAdmin.role
+                Role: newAdmin.Role
             });
         } else {
             // Caso a criação do usuário falhe por algum motivo inesperado
@@ -96,7 +96,7 @@ export const deleteAdmin = async (req, res) => {
 
         // Opcional: Impedir a exclusão do último admin (ou do admin 'seed')
         // Você precisaria buscar todos os admins e verificar a contagem
-        const adminCount = await User.countDocuments({ role: 'admin' });
+        const adminCount = await User.countDocuments({ Role: 'admin' });
         if (adminCount <= 1 && adminIdToDelete !== req.user._id) { // Se for o último admin e não for o que está tentando se deletar
             // Esta lógica pode ser mais complexa dependendo de quem você quer que seja o "último" admin
             // Por exemplo, se o admin "seed" é o único que não pode ser deletado.
@@ -105,11 +105,11 @@ export const deleteAdmin = async (req, res) => {
 
 
         // 1. Encontra e deleta o usuário pelo ID, garantindo que ele seja um 'admin'
-        // Adicionamos { role: 'admin' } para garantir que apenas admins possam ser deletados por esta rota
-        const deletedAdmin = await User.findOneAndDelete({ _id: adminIdToDelete, role: 'admin' });
+        // Adicionamos { Role: 'admin' } para garantir que apenas admins possam ser deletados por esta rota
+        const deletedAdmin = await User.findOneAndDelete({ _id: adminIdToDelete, Role: 'admin' });
 
         if (!deletedAdmin) {
-            // Se não encontrou um admin com aquele ID ou se o usuário não tinha a role 'admin'
+            // Se não encontrou um admin com aquele ID ou se o usuário não tinha a Role 'admin'
             return res.status(404).json({ error: "Administrador não encontrado ou não é um administrador válido." });
         }
 

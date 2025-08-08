@@ -7,12 +7,14 @@ export const identifyUser = (req, res, next) => {
     const userId = req.headers['x-user-id'];     // Ex: X-User-Id: 66a9d0a7a3b4c5d6e7f8a9b0
     const userRole = req.headers['x-user-role']; // Ex: X-User-Role: admin ou X-User-Role: comum
 
+    console.log('Middleware identifyUser: userId recebido:', userId);
+    console.log('Middleware identifyUser: userRole recebido:', userRole);
     // Se um ID de usuário for fornecido, anexamos as informações à requisição.
     // Caso contrário, a requisição não será "identificada" para rotas protegidas.
     if (userId) {
         req.user = {
             _id: userId, // Usamos _id para ser consistente com o Mongoose
-            role: userRole || 'comum' // Assume 'comum' se a role não for especificada
+            Role: userRole || 'comum' // Assume 'comum' se a role não for especificada
         };
         next(); // Continua para o próximo middleware ou rota
     } else {

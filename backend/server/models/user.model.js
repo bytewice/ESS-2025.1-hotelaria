@@ -21,7 +21,7 @@ const userSchema = new mongoose.Schema({
         minlength: 6
     },
     // --- NOVO CAMPO ---
-    role: { // Campo: role (string, com valores 'comum' ou 'admin', padrão 'comum')
+    Role: { // Campo: role (string, com valores 'comum' ou 'admin', padrão 'comum')
         type: String,
         enum: ['comum', 'admin','seed'], //unica diferença é q o seed pode criar outros admins
         default: 'comum'

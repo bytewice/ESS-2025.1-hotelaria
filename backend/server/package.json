@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@cucumber/cucumber": "^12.1.0",
     "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
@@ -10,10 +11,15 @@
     "nodemon": "^3.1.1",
     "path": "^0.12.7"
   },
-  
   "scripts": {
     "dev": "nodemon index.js",
+    "cucumber": "NODE_ENV=test cucumber-js features/admin-user1.feature --require test/admin-user.test.js", 
     "seed:admin": "node ./seeds/seedAdmin.js"
   },
-  "type": "module"
+  "type": "module",
+  "devDependencies": {
+    "chai": "^5.2.1",
+    "jest": "^30.0.5",
+    "supertest": "^7.1.3"
+  }
 }

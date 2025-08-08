@@ -10,7 +10,7 @@ const app = express();
 dotenv.config()
 
 app.use(cors());
-
+const PORT = process.env.PORT || 3000;
 app.use(express.json())
 app.use(cookieParser())
 
@@ -21,7 +21,12 @@ import adminRoutes from './routes/admin-users.routes.js'
 app.use('/user', userPerfilRoutes)
 app.use('/admin', adminRoutes)
 
-app.listen(3000, () => {
-  connectToMongoDB()
-  console.log("Running at Port 3000")
-});
+// Apenas inicie o servidor se o arquivo for o ponto de entrada principal
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(PORT, () => {
+    connectToMongoDB()
+    console.log("Running at Port 3000")
+  });
+}
+
+export default app
