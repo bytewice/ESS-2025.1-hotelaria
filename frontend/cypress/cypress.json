@@ -1,0 +1,6 @@
+{
+"cucumber": {
+"features": "../../features/backend",
+"stepDefinitions": "./stepDefinitions"
+}
+}
