@@ -1,24 +1,25 @@
 console.log('--- O ARQUIVO DE STEPS FOI CARREGADO COM SUCESSO ---')
-import { Given, When, Then, BeforeAll, AfterAll} from '@cucumber/cucumber'
+import { Given, When, Then, BeforeAll, AfterAll, setDefaultTimeout} from '@cucumber/cucumber'
 import request from 'supertest'
 import app from '../index.js'
 import mongoose from 'mongoose'
 import User from '../models/user.model.js'
 import UserComum from '../models/user_comum.model.js'
-import bcrypt from 'bcryptjs'
 import { expect } from 'chai'
+import bcrypt from 'bcryptjs'
 import dotenv from 'dotenv'
+
 dotenv.config()
+
+setDefaultTimeout(5 * 1000)
 
 BeforeAll(async function () {
     console.log('Cucumber BeforeAll: Conectando ao MongoDB de Teste e limpando dados...')
-    if (!process.env.MONGO_DB_URI) {
+    if (!process.env.MONGO_DB_URI_TEST) {
         console.log('A variável de ambiente MONGO_DB_URI_TEST não está definida.')
         throw new Error("A variável de ambiente MONGO_DB_URI_TEST não está definida.")
     }
-    //console.log('A')
-    await mongoose.connect(process.env.MONGO_DB_URI)
-    //console.log('B')
+    await mongoose.connect(process.env.MONGO_DB_URI_TEST)
     await User.deleteMany({})
     console.log('Cucumber BeforeAll: Setup inicial concluído.')
 })
@@ -29,6 +30,8 @@ AfterAll(async function(){
     await mongoose.connection.close()
     console.log('Cucumber AfterAll: Desconectado.')
 })
+
+//----------------------------------------------------------------GIVEN------------------------------------
 
 Given('não existe um usuário com CPF {string} no sistema', async function (cpf) {
     await UserComum.deleteOne({ CPF: cpf })
