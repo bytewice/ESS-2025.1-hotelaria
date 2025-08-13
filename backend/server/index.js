@@ -19,6 +19,7 @@ import adminRoutes from './routes/admin-users.routes.js';
 import attractionRoutes from './routes/attraction_routes.js';
 //import userReservationRoutes from './routes/user_reservation.routes.js' // Comentado, se não estiver em uso
 import AdminRoutes from './routes/admin.routes.js';
+import reservationRoutes from "./routes/admin.reservation.routes.js";
 
 
 // Usa as rotas
