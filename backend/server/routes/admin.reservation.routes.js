@@ -5,7 +5,6 @@ import {
     excluirReserva,
     listarReservas,
     buscarReservaPorID,
-    buscarReservasPorCPF,
     buscarReservasPorIntervalo,
     historicoHospede,
     reservasFuturtasQuarto
