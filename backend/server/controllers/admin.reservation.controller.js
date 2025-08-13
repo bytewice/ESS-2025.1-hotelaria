@@ -1,5 +1,5 @@
 import Reservation from "../models/admin.reservation.model.js";
-import {verificarConflito, calcularTaxaDeOcupacao } from "../services/reservation.services.js"
+import {verificarConflito} from "../services/admin.reservation.services.js"
 
 const gerarCodigoReserva = async () => {
     const ultimaReserva = await Reservation.findOne().sort({codigoReserva: -1}).limit(1);

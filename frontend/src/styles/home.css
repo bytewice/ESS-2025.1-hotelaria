@@ -1,0 +1,62 @@
+/* Estilo geral da página */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to right, #a1c4fd, #c2e9fb); /* gradiente suave */
+    min-height: 100vh;
+  }
+  
+  /* Container da Home */
+  .home-container {
+    max-width: 900px;
+    margin: 60px auto;
+    padding: 40px 20px;
+    background-color: rgba(255, 255, 255, 0.95)!important;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    text-align: center;
+  }
+  
+  /* Título principal */
+  .home-container h1 {
+    color: #1e3a8a;
+    font-size: 3rem;
+    margin-bottom: 16px;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+  }
+  
+  /* Parágrafo descritivo */
+  .home-container p {
+    color: #555;
+    font-size: 1.2rem;
+    line-height: 1.6;
+    margin-bottom: 30px;
+  }
+  
+  /* Botões de navegação */
+  .home-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  
+  .home-buttons a {
+    text-decoration: none;
+    font-weight: bold;
+    padding: 12px 28px;
+    border-radius: 8px;
+    color: white;
+    transition: all 0.3s ease;
+  }
+  
+  /* Cores diferentes para cada botão */
+  .home-buttons a.atracoes { background-color: #1d4ed8; }
+  .home-buttons a.quartos { background-color: #059669; }
+  .home-buttons a.reservas { background-color: #7c3aed; }
+  
+  .home-buttons a:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+  }
+  
