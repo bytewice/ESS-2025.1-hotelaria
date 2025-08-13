@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import * as CartoesAPI from '../services/cartõesAPI';
 import './../styles/cartões.css';
 
 interface Cartao {
@@ -11,118 +12,96 @@ interface Cartao {
   createdAt?: Date;
 }
 
-interface CartoesProps {
-  cartoes: Cartao[];
-  onAdicionarCartao?: () => void;
-  onEditarCartao?: (id: string) => void;
-  onExcluirCartao?: (id: string) => void;
-  mostrarDetalhesSensiveis?: boolean;
-}
+const Cartoes: React.FC = () => {
+  // Estados do componente
+  const [cartoes, setCartoes] = useState<Cartao[]>([]);
+  const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
-const Cartoes: React.FC<CartoesProps> = ({ 
-  cartoes = [],
-  onAdicionarCartao,
-  onEditarCartao,
-  onExcluirCartao,
-  mostrarDetalhesSensiveis = false
-}) => {
-  const [cartaoSelecionado, setCartaoSelecionado] = useState<string | null>(null);
+  // Carregar cartões ao montar o componente
+  useEffect(() => {
+    const carregarCartoes = async () => {
+      try {
+        const dados = await CartoesAPI.getCartoes();
+        setCartoes(dados);
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    carregarCartoes();
+  }, []);
 
-  const formatarNumeroCartao = (numero: number) => {
-    const str = numero.toString().padStart(16, '0');
-    return `•••• •••• •••• ${str.slice(-4)}`;
-  };
+  // Adicionar cartão
+  const handleAdicionar = async (dadosCartao: Omit<Cartao, '_id' | 'createdAt'>) => {
+    const erroValidacao = CartoesAPI.validarCartao(dadosCartao);
+    if (erroValidacao) {
+      alert(erroValidacao);
+      return;
+    }
 
-  const formatarValidade = (validade: string) => {
-    return `${validade.slice(0, 2)}/${validade.slice(2)}`;
-  };
-
-  const getBandeira = (numero: number) => {
-    const primeiroDigito = numero.toString()[0];
-    switch(primeiroDigito) {
-      case '4': return 'Visa';
-      case '5': return 'Mastercard';
-      case '3': return 'American Express';
-      default: return 'Outra Bandeira';
+    try {
+      const novoCartao = await CartoesAPI.adicionarCartao(dadosCartao);
+      setCartoes([...cartoes, novoCartao]);
+    } catch (error) {
+      alert(error.message);
     }
   };
 
-  const handleExcluir = (id: string, e: React.MouseEvent) => {
-    e.stopPropagation();
+  // Editar cartão
+  const handleEditar = async (nomeOriginal: string, dadosAtualizados: Partial<Cartao>) => {
+    try {
+      const cartaoAtualizado = await CartoesAPI.atualizarCartao(nomeOriginal, dadosAtualizados);
+      setCartoes(cartoes.map(c => 
+        c.nome_cartao === nomeOriginal ? cartaoAtualizado : c
+      ));
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+
+  // Excluir cartão
+  const handleExcluir = async (nomeCartao: string) => {
     if (window.confirm('Tem certeza que deseja excluir este cartão?')) {
-      onExcluirCartao?.(id);
+      try {
+        await CartoesAPI.removerCartao(nomeCartao);
+        setCartoes(cartoes.filter(c => c.nome_cartao !== nomeCartao));
+      } catch (error) {
+        alert(error.message);
+      }
     }
   };
+
+  // Renderização do componente
+  if (isLoading) return <div>Carregando...</div>;
+  if (error) return <div>Erro: {error}</div>;
 
   return (
     <div className="cartoes-container">
-      <div className="cartoes-header">
-        <h2>Meus Cartões</h2>
-        <button 
-          className="botao-adicionar"
-          onClick={onAdicionarCartao}
-        >
-          + Adicionar Cartão
-        </button>
-      </div>
+      {/* Sua implementação de renderização aqui */}
+      {/* Exemplo de uso dos handlers: */}
+      <button onClick={() => handleAdicionar({
+        nome_cartao: 'Novo Cartão',
+        nome: 'Titular',
+        numero_cartao: 1234123412341234,
+        validade: '1225',
+        CVV: 123
+      })}>
+        Testar Adição
+      </button>
 
-      {cartoes.length === 0 ? (
-        <div className="nenhum-cartao">
-          <p>Nenhum cartão cadastrado</p>
+      {cartoes.map(cartao => (
+        <div key={cartao._id}>
+          <span>{cartao.nome_cartao}</span>
+          <button onClick={() => handleEditar(cartao.nome_cartao, { nome_cartao: 'Nome Editado' })}>
+            Editar
+          </button>
+          <button onClick={() => handleExcluir(cartao.nome_cartao)}>
+            Excluir
+          </button>
         </div>
-      ) : (
-        <div className="cartoes-lista">
-          {cartoes.map((cartao) => (
-            <div
-              key={cartao._id}
-              className={`cartao ${cartaoSelecionado === cartao._id ? 'selecionado' : ''}`}
-              onClick={() => setCartaoSelecionado(cartao._id)}
-            >
-              <div className="cartao-bandeira">
-                {getBandeira(cartao.numero_cartao)}
-              </div>
-              
-              <div className="cartao-numero">
-                {mostrarDetalhesSensiveis
-                  ? cartao.numero_cartao.toString().replace(/(\d{4})/g, '$1 ')
-                  : formatarNumeroCartao(cartao.numero_cartao)
-                }
-              </div>
-              
-              <div className="cartao-info">
-                <div>
-                  <span className="cartao-label">Titular</span>
-                  <span className="cartao-value">{cartao.nome}</span>
-                </div>
-                
-                <div>
-                  <span className="cartao-label">Validade</span>
-                  <span className="cartao-value">{formatarValidade(cartao.validade)}</span>
-                </div>
-              </div>
-              
-              <div className="cartao-acoes">
-                <button
-                  className="botao-editar"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onEditarCartao?.(cartao._id);
-                  }}
-                >
-                  Editar
-                </button>
-                
-                <button
-                  className="botao-excluir"
-                  onClick={(e) => handleExcluir(cartao._id, e)}
-                >
-                  Excluir
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
+      ))}
     </div>
   );
 };

@@ -4,6 +4,8 @@ import Reservas from "./pages/Reservas";
 import Quartos from "./pages/Quartos";
 import Atrações from "./pages/Atrações";
 import AtracaoDetalhe from "./pages/AtraçãoDetalhe";
+import Cartões from "./pages/Cartões";
+import ModalAdicionarCartao from "./pages/ModalAdicionarCartão"
 import Layout from "./Layout"; // Caminho para o Layout
 
 export default function App() {
@@ -18,6 +20,8 @@ export default function App() {
         <Route path="/quartos" element={<Layout><Quartos /></Layout>} />
         <Route path="/atrações" element={<Layout><Atrações /></Layout>} />
         <Route path="/atrações/:name" element={<Layout><AtracaoDetalhe /></Layout>} />
+        <Route path="/cartões" element={<Layout><Cartões /></Layout>} />
+        <Route path="/cartões/adicionarcartao" element={<Layout><AdicionarCartao /></Layout>} />
       </Routes>
     </Router>
   );

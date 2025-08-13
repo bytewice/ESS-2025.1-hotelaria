@@ -15,6 +15,7 @@ export default function Home() {
         <Link to="/atrações" className="atracoes">Atrações</Link>
         <Link to="/quartos" className="quartos">Quartos</Link>
         <Link to="/reservas" className="reservas">Reservas</Link>
+        <Link to="/cartões" className="cartões">Cartões</Link>
       </div>
 
       <p style={{ marginTop: "40px", color: "#555" }}>
