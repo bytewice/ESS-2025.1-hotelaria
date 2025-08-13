@@ -1,67 +1,39 @@
 import { useEffect, useState } from "react";
-import {
-  getAllAttractions,
-  createAttraction,
-  deleteAttraction
-} from "../services/attractionApi";
+import axios from "axios";
+import { Link } from "react-router-dom";
 
-export default function Atracoes() {
-  const [attractions, setAttractions] = useState<any[]>([]);
-  const [newName, setNewName] = useState("");
-  const [newDesc, setNewDesc] = useState("");
+interface Attraction {
+  nome: string;
+  descricao: string;
+}
 
-  const loadAttractions = async () => {
-    try {
-      const data = await getAllAttractions();
-      setAttractions(data);
-    } catch (err) {
-      console.error("Erro ao carregar atrações", err);
-    }
-  };
-
-  const handleCreate = async () => {
-    if (!newName || !newDesc) return;
-    await createAttraction({ name: newName, description: newDesc });
-    setNewName("");
-    setNewDesc("");
-    loadAttractions();
-  };
-
-  const handleDelete = async (name: string) => {
-    await deleteAttraction(name);
-    loadAttractions();
-  };
+export default function Atrações() {
+  const [atracoes, setAtracoes] = useState<Attraction[]>([]);
 
   useEffect(() => {
-    loadAttractions();
+    axios.get("http://localhost:2000/attraction")
+      .then(res => setAtracoes(res.data))
+      .catch(err => console.error("Erro ao carregar atrações:", err));
   }, []);
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h1>Atrações</h1>
+    <div className="p-6">
+      <h1 className="text-3xl font-bold mb-4">Atrações</h1>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {atracoes.map((atracao) => (
+          <div key={atracao.nome} className="border rounded-xl p-4 shadow hover:shadow-lg transition">
+            <h2 className="text-xl font-semibold mb-2">{atracao.nome}</h2>
+            <p className="text-gray-600">{atracao.descricao}</p>
+            <Link
+              to={`/atrações/${encodeURIComponent(atracao.nome)}`}
+              className="inline-block mt-3 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+              >
+  Ver detalhes
+</Link>
 
-      <div style={{ marginBottom: "20px" }}>
-        <input
-          placeholder="Nome"
-          value={newName}
-          onChange={(e) => setNewName(e.target.value)}
-        />
-        <input
-          placeholder="Descrição"
-          value={newDesc}
-          onChange={(e) => setNewDesc(e.target.value)}
-        />
-        <button onClick={handleCreate}>Adicionar</button>
-      </div>
-
-      <ul>
-        {attractions.map((a, i) => (
-          <li key={i}>
-            <b>{a.name}</b> - {a.description}
-            <button onClick={() => handleDelete(a.name)}>Excluir</button>
-          </li>
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
 }
