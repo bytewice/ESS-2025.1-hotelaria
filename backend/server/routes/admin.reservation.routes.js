@@ -15,20 +15,23 @@ const router = express.Router();
 
 /* JSON */
 
+// Todas as rotas podem identificar o usuário
+router.use(identifyUser);
+
 // GET
-router.get("/", listarReservas); // Listar todas
-router.get("/intervalo", buscarReservasPorIntervalo); // Buscar por intervalo de datas
-router.get("/historico/:cpf", historicoHospede); // Histórico de um hóspede
-router.get("/futuras/:quarto", reservasFuturtasQuarto); // Reservas futuras de um quarto
-router.get("/id/:id", buscarReservaPorID); // Buscar reserva por ID
+router.get("/", authorizeRole(["admin"]), listarReservas); // Listar todas (admin)
+router.get("/intervalo", authorizeRole(["admin"]), buscarReservasPorIntervalo);
+router.get("/historico/:cpf", authorizeRole(["admin"]), historicoHospede);
+router.get("/futuras/:quarto", authorizeRole(["admin"]), reservasFuturtasQuarto);
+router.get("/id/:id", authorizeRole(["admin"]), buscarReservaPorID);
 
-// POST
-router.post("/", criarReserva); // Criar reserva
+// POST - Criar reserva (apenas admin)
+router.post("/", authorizeRole(["admin"]), criarReserva);
 
-// PUT
-router.put("/:id", editarReserva); // Editar reserva
+// PUT - Editar reserva (apenas admin)
+router.put("/:id", authorizeRole(["admin"]), editarReserva);
 
-// DELETE
-router.delete("/:id", excluirReserva); // Excluir reserva
+// DELETE - Excluir reserva (apenas admin)
+router.delete("/:id", authorizeRole(["admin"]), excluirReserva);
 
 export default router;
