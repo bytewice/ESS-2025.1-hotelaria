@@ -9,6 +9,7 @@ import {
     historicoHospede,
     reservasFuturtasQuarto
 } from "../controllers/admin.reservation.controller.js";
+import { identifyUser, authorizeRole } from "../middlewares/authMiddleware.js";
 
 const router = express.Router();
 
