@@ -4,7 +4,6 @@ import mongoose from 'mongoose'
 const AvaliacaoSchema = new mongoose.Schema({
     texto: String,
     nota: Number,
-    data: { type: Date, default: Date.now }
 })
 
 const MetodoDePagamentoSchema = new mongoose.Schema({

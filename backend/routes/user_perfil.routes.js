@@ -13,8 +13,8 @@ router.get('/:id', getUser)
 router.post('/signup', signupUser)
 //router.post('/:id/metodo', addMetodo)
 
-// PUT
-router.put('/:id', updateUser)
+// PATCH
+router.patch('/:id', updateUser)
 
 // DELETE
 router.delete('/:id', deleteUser)

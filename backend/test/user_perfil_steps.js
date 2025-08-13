@@ -123,19 +123,19 @@ When('é enviada uma requisição para cadastrar um novo usuário com CPF igual 
 })
 When('ele envia uma requisição para editar sua senha para {string}', async function (newPassword) {
     this.response = await request(app)
-        .put(`/user/${this.currentUserId}`)
+        .patch(`/user/${this.currentUserId}`)
         .send({ Password: newPassword, ConfirmPassword: newPassword })
 })
 When('é enviada uma requisição para mudar o seu nome para {string}', async function (newName) {
     const userToUpdate = await UserComum.findOne({ CPF: this.currentUserCpf })
     this.response = await request(app)
-        .put(`/user/${userToUpdate._id}`)
+        .patch(`/user/${userToUpdate._id}`)
         .send({ Name: newName })
 })
 When('o usuário de CPF {string} envia uma requisição para editar seu CPF para {string}', async function (originalCpf, newCpf) {
     const userToUpdate = await UserComum.findOne({ CPF: originalCpf })
     this.response = await request(app)
-        .put(`/user/${userToUpdate._id}`)
+        .patch(`/user/${userToUpdate._id}`)
         .send({ CPF: newCpf })
 })
 When('é enviada uma requisição para remover o usuário com CPF igual à {string}', async function (cpf) {
