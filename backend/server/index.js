@@ -19,13 +19,16 @@ import adminRoutes from './routes/admin-users.routes.js';
 import attractionRoutes from './routes/attraction_routes.js';
 //import userReservationRoutes from './routes/user_reservation.routes.js' // Comentado, se não estiver em uso
 import AdminRoutes from './routes/admin.routes.js';
+import reservas from './routes/admin.reservation.routes.js';
 
 
 // Usa as rotas
 app.use('/attraction', attractionRoutes);
 app.use('/user', userPerfilRoutes);
 app.use('/admin', adminRoutes);
-app.use('/admin', AdminRoutes); // Se AdminRoutes for diferente de adminRoutes
+app.use('/admin', AdminRoutes);
+app.use('/reservas', reservas);
+ // Se AdminRoutes for diferente de adminRoutes
 
 // Exporta a instância do aplicativo Express para uso em testes
 export default app;
