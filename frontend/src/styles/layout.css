@@ -1,0 +1,45 @@
+.layout-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    background-color: #1e3a8a;
+    color: white;
+    position: relative;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  }
+  
+  .header-title {
+    margin: 0;
+    font-size: 1.5rem;
+  }
+  
+  .hamburger {
+    cursor: pointer;
+  }
+  
+  .dropdown-menu {
+    position: absolute;
+    top: 100%;
+    right: 1.5rem;
+    background-color: white;
+    color: black;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    min-width: 150px;
+    padding: 0.5rem 0;
+    z-index: 100;
+  }
+  
+  .dropdown-menu a {
+    padding: 0.5rem 1rem;
+    text-decoration: none;
+    color: #1e3a8a;
+  }
+  
+  .dropdown-menu a:hover {
+    background-color: #f0f0f0;
+  }
+  
