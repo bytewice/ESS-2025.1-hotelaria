@@ -9,29 +9,29 @@ import {
     historicoHospede,
     reservasFuturtasQuarto
 } from "../controllers/admin.reservation.controller.js";
-import { identifyUser, authorizeRole } from "../middlewares/authMiddleware.js";
+import { protectRoute } from "../middlewares/authMiddleware.js";
 
 const router = express.Router();
 
 /* JSON */
 
 // Todas as rotas podem identificar o usuário
-router.use(identifyUser);
+// router.use(identifyUser); NÃO SEI O QUE É ISSO ENTÃO NÃO VOU MEXER
 
 // GET
-router.get("/", authorizeRole(["admin"]), listarReservas); // Listar todas (admin)
-router.get("/intervalo", authorizeRole(["admin"]), buscarReservasPorIntervalo);
-router.get("/historico/:cpf", authorizeRole(["admin"]), historicoHospede);
-router.get("/futuras/:quarto", authorizeRole(["admin"]), reservasFuturtasQuarto);
-router.get("/id/:id", authorizeRole(["admin"]), buscarReservaPorID);
+router.get("/", protectRoute, listarReservas); // Listar todas (admin)
+router.get("/intervalo", protectRoute, buscarReservasPorIntervalo);
+router.get("/historico/:cpf", protectRoute, historicoHospede);
+router.get("/futuras/:quarto", protectRoute, reservasFuturtasQuarto);
+router.get("/id/:id", protectRoute, buscarReservaPorID);
 
 // POST - Criar reserva (apenas admin)
-router.post("/", authorizeRole(["admin"]), criarReserva);
+router.post("/", protectRoute, criarReserva);
 
 // PUT - Editar reserva (apenas admin)
-router.put("/:id", authorizeRole(["admin"]), editarReserva);
+router.put("/:id", protectRoute, editarReserva);
 
 // DELETE - Excluir reserva (apenas admin)
-router.delete("/:id", authorizeRole(["admin"]), excluirReserva);
+router.delete("/:id", protectRoute, excluirReserva);
 
 export default router;
