@@ -26,6 +26,7 @@ app.use('/attraction', attractionRoutes);
 app.use('/user', userPerfilRoutes);
 app.use('/admin', adminRoutes);
 app.use('/admin', AdminRoutes); // Se AdminRoutes for diferente de adminRoutes
+app.use("/reservas", reservationRoutes);
 
 // Exporta a instância do aplicativo Express para uso em testes
 export default app;
