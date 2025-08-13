@@ -1,27 +1,28 @@
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import Home from "./pages/Home"
-import Reservas from "./pages/Reservas"
-import Quartos from "./pages/Quartos"
-import Atrações from "./pages/Atrações"
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Cadastro from "./pages/Cadastro";
+import Reservas from "./pages/Reservas";
+import Quartos from "./pages/Quartos";
+import Atrações from "./pages/Atrações";
 import AtracaoDetalhe from "./pages/AtraçãoDetalhe";
-import './App.css'
+import Layout from "./Layout"; // Caminho para o Layout
 
 export default function App() {
   return (
     <Router>
-      <nav style={{ display: "flex", gap: "1rem", padding: "1rem" }}>
-        <Link to="/">🏠 Home</Link>
-        <Link to="/reservas">📅 Reservas</Link>
-        <Link to="/quartos">🛏️ Quartos</Link>
-        <Link to="/atrações">🎡 Atrações</Link>
-      </nav>
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/reservas" element={<Reservas />} />
-        <Route path="/quartos" element={<Quartos />} />
-        <Route path="/atrações" element={<Atrações />} />      
-        <Route path="/atrações/:name" element={<AtracaoDetalhe />} />
+        {/* Páginas sem Layout */}
+        <Route path="/" element={<Login />} />
+        <Route path="/cadastro" element={<Cadastro />} />
+
+        {/* Páginas secundárias com Layout */}
+        <Route path="/home" element={<Layout><Home /></Layout>} />
+        <Route path="/reservas" element={<Layout><Reservas /></Layout>} />
+        <Route path="/quartos" element={<Layout><Quartos /></Layout>} />
+        <Route path="/atrações" element={<Layout><Atrações /></Layout>} />
+        <Route path="/atrações/:name" element={<Layout><AtracaoDetalhe /></Layout>} />
       </Routes>
     </Router>
-  )
+  );
 }
