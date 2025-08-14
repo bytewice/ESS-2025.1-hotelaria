@@ -50,17 +50,20 @@ export const criarReserva = async (req, res) => {
 export const editarReserva = async (req, res) => {
     try{
         const {id} = req.params;
-        const {checkOut} = req.body;
+        const {checkIn, checkOut, quarto} = req.body;
 
         const reserva = await Reservation.findById(id);
         if(!reserva) return res.status(404).json({mensagem: "Reserva não encontrada"});
 
-        const conflito = await verificarConflito(reserva.quarto, reserva.checkIn, reserva.checkOut, id);
+        const conflito = await verificarConflito(quarto || reserva.quarto, checkIn, checkOut, id);
         if(conflito){
             return res.status(400).json({mensagem: "Conflito de data detectado"});
         }
 
-        reserva.checkOut = checkOut;
+        reserva.checkIn = checkIn || reserva.checkIn;
+        reserva.checkOut = checkOut || reserva.checkOut;
+        reserva.quarto = quarto || reserva.quarto;
+        
         await reserva.save();
 
     res.json({mensagem: "Reserva atualizada com sucesso", reserva});
