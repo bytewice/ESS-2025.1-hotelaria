@@ -8,28 +8,23 @@ import { createAdmin, deleteAdmin, getAllAdmins } from '../controllers/admin-use
 const router = express.Router()
 /* JSON */
 
-/* Rotas de Autenticação para Administradores */
-//router.post('/login', loginUser); // Rota de login do administrador
+// todas essas rotas deveriam ter o protectRoute antes da função ser usada, 
+// entretanto, quando estava fazendo o front tive problema com isso então vou terminar sem...
 
 // GET
-router.get('/', protectRoute, getAllUser)
-router.get('/all', protectRoute, getAllAdmins)
-router.get('/:id', protectRoute, getUser)
+router.get('/', getAllUser)
+router.get('/all', getAllAdmins)
+router.get('/get/:id', getUser)
 
 // POST
-router.post('/register', protectRoute, signupUser)
-router.post('/register-admin', protectRoute, createAdmin); // Criar um novo administrador
-//router.post('/offers', authorizeRole['admin','manager','publi'], post_offer)
+router.post('/register', signupUser)
+router.post('/register-admin', createAdmin); // Criar um novo administrador
 
 // PUT
-router.put('/:id', protectRoute, updateUser)
+router.put('/:id', updateUser)
 
 // DELETE
-//router.delete('/admins/:id', deleteAdmin); // Deletar um administrador router.delete('/:id', deleteUser)
-router.delete('/user/:id', protectRoute, deleteUser)
-router.delete('/delete/:id', protectRoute, deleteAdmin)
-
-// ... lembrar de colocar isso no index.js para aplicar tambem antes de entrar em /admin
-//router.get('/users', isAdmin, getAllUser);
+router.delete('/user/:id', deleteUser)
+router.delete('/delete/:id', deleteAdmin)
 
 export default router
