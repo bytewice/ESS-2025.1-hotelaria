@@ -1,0 +1,127 @@
+/* Estilo geral da página */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(to right, #a1c4fd, #c2e9fb); /* gradiente suave */
+  min-height: 100vh;
+}
+
+/* Container principal (mesmo de home */
+.home-container {
+  max-width: 900px;
+  margin: 60px auto;
+  padding: 40px 20px;
+  background-color: rgba(255, 255, 255, 0.95);
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+  text-align: center;
+}
+
+/* Título principal */
+.home-container h1 {
+  color: #1e3a8a;
+  font-size: 3rem;
+  margin-bottom: 16px;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+}
+
+/* Parágrafo descritivo */
+.home-container p {
+  color: #555;
+  font-size: 1.2rem;
+  line-height: 1.6;
+  margin-bottom: 30px;
+}
+
+/* Botões de navegação/ação principais */
+.home-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 40px; /* Adicionado espaço antes da tabela */
+}
+
+/* ATUALIZAÇÃO: Aplicar estilos a <a> e <button> */
+.home-buttons a,
+.home-buttons button {
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1rem;
+  padding: 12px 28px;
+  border-radius: 8px;
+  color: white;
+  border: none; /* Garante que botões não tenham borda padrão */
+  cursor: pointer; /* Garante que botões tenham cursor de ponteiro */
+  transition: all 0.3s ease;
+}
+
+/* Cores diferentes para cada botão */
+.home-buttons .atracoes { background-color: #1d4ed8; } /* Azul */
+.home-buttons .quartos { background-color: #059669; } /* Verde */
+.home-buttons .reservas { background-color: #7c3aed; } /* Roxo */
+
+/* Efeito de hover para os botões principais */
+.home-buttons a:hover,
+.home-buttons button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+}
+
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+}
+
+thead tr {
+  background-color: #1e3a8a;
+  color: white;
+}
+
+th, td {
+  padding: 12px 15px;
+  border-bottom: 1px solid #ddd;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #f9fafb;
+}
+
+tbody tr:hover {
+  background-color: #eef2ff;
+}
+
+/* Célula que contém os botões de ação */
+.actions-cell {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+/* Estilo base para botões de ação na tabela */
+.actions-cell button {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.actions-cell button:hover {
+  opacity: 0.85;
+}
+
+/* Cores específicas para os botões de ação */
+.edit-btn { background-color: #1d4ed8; } /* Azul */
+.delete-btn { background-color: #dc2626; } /* Vermelho */
