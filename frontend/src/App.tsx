@@ -1,25 +1,50 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Cadastro from "./pages/Cadastro";
 import Reservas from "./pages/Reservas";
 import Quartos from "./pages/Quartos";
 import Atrações from "./pages/Atrações";
+import AdminAttractions from "./pages/AdminAttractions";
 import AtracaoDetalhe from "./pages/AtraçãoDetalhe";
 import Cartões from "./pages/Cartões";
 import Layout from "./Layout"; // Caminho para o Layout
 
+import { Admin, AdminUsers, UsersList, AdminList} from "./pages/Admin"
+import { CreateUser, CreateAdmin} from './pages/AdminCreate'
+import { DeleteUser, DeleteAdmin} from './pages/AdminDelete'
+import { EditUser } from "./pages/AdminEdit"; //fazer jaja
+
 export default function App() {
-  return (
+  return (  
     <Router>
       <Routes>
         {/* Home sem Layout */}
-        <Route path="/" element={<Home />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="/" element={<Login />} />
+        <Route path="/cadastro" element={<Cadastro />} />
 
+        <Route path="/home-admin" element={<Admin/>}/>
+        <Route path="/admin-users" element={<AdminUsers/>}/>        
+        <Route path="/userslist" element={<UsersList/>}/>
+        <Route path="/adminlist" element={<AdminList/>}/>     
+        <Route path="/createuser" element={<CreateUser/>}/>
+        <Route path="/createadmin" element={<CreateAdmin/>}/>
+        <Route path="/delete-user/:id" element={<DeleteUser/>}/>
+        <Route path="/delete-admin/:id" element={<DeleteAdmin/>}/>
+        <Route path="/edit-user/:id" element={<EditUser/>}/>
         {/* Páginas secundárias com Layout */}
+        <Route path="/adminatrações" element={<AdminAttractions/>}/>
         <Route path="/reservas" element={<Layout><Reservas /></Layout>} />
         <Route path="/quartos" element={<Layout><Quartos /></Layout>} />
+<<<<<<< HEAD
         <Route path="/atrações" element={<Layout><Atrações /></Layout>} />
         <Route path="/atrações/:name" element={<Layout><AtracaoDetalhe /></Layout>} />
         <Route path="/cartões" element={<Layout><Cartões /></Layout>} />
+=======
+        <Route path="/atracoes" element={<Layout><Atrações /></Layout>} />
+        <Route path="/atracoes/:name" element={<Layout><AtracaoDetalhe /></Layout>} />
+>>>>>>> main
       </Routes>
     </Router>
   );

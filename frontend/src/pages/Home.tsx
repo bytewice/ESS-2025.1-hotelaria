@@ -12,7 +12,7 @@ export default function Home() {
       <p>Sistema de gestão de hotelaria</p>
 
       <div className="home-buttons">
-        <Link to="/atrações" className="atracoes">Atrações</Link>
+        <Link to="/atracoes" className="atracoes">Atrações</Link>
         <Link to="/quartos" className="quartos">Quartos</Link>
         <Link to="/reservas" className="reservas">Reservas</Link>
         <Link to="/cartões" className="cartões">Cartões</Link>
