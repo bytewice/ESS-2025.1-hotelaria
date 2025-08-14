@@ -11,6 +11,10 @@ import AdminAttractions from "./pages/AdminAttractions";
 import AtracaoDetalhe from "./pages/AtraçãoDetalhe";
 import Layout from "./Layout"; // Caminho para o Layout
 
+import { Admin, AdminUsers, UsersList, AdminList} from "./pages/Admin"
+import { CreateUser, CreateAdmin} from './pages/AdminCreate'
+import { DeleteUser, DeleteAdmin} from './pages/AdminDelete'
+import { EditUser } from "./pages/AdminEdit"; //fazer jaja
 
 export default function App() {
   return (  
@@ -21,6 +25,17 @@ export default function App() {
         <Route path="/" element={<Login />} />
         <Route path="/cadastro" element={<Cadastro />} />
         <Route path="/perfil/editar" element={<EditarPerfil />} />
+
+
+        <Route path="/home-admin" element={<Admin/>}/>
+        <Route path="/admin-users" element={<AdminUsers/>}/>        
+        <Route path="/userslist" element={<UsersList/>}/>
+        <Route path="/adminlist" element={<AdminList/>}/>     
+        <Route path="/createuser" element={<CreateUser/>}/>
+        <Route path="/createadmin" element={<CreateAdmin/>}/>
+        <Route path="/delete-user/:id" element={<DeleteUser/>}/>
+        <Route path="/delete-admin/:id" element={<DeleteAdmin/>}/>
+        <Route path="/edit-user/:id" element={<EditUser/>}/>
         {/* Páginas secundárias com Layout */}
         <Route path="/adminatrações" element={<AdminAttractions/>}/>
         <Route path="/reservas" element={<Layout><Reservas /></Layout>} />

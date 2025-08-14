@@ -20,8 +20,8 @@ export default function Login() {
     try {
       const resposta = await loginUser({ email, senha });
 
-      if (resposta.role === "admin") {
-        navigate("/admin"); // ou /admin/home
+      if (resposta.role === "admin" || resposta.role === "seed" ) {
+        navigate("/home-admin"); // ou /admin/home
       } else if (resposta.role === "comum") {
         setUser(resposta);
         navigate("/home"); // página home do usuário

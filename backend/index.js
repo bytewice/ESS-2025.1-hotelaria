@@ -7,7 +7,7 @@ import connectToMongoDB from './db/connectToMongoDB.js'; // Importa a função d
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT // Define a porta
+const PORT = process.env.PORT|| 2000; // Define a porta
 
 app.use(cors());
 app.use(express.json());

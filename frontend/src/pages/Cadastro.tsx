@@ -12,25 +12,38 @@ export default function Cadastro() {
   const [Password, setSenha] = useState<string>("");
   const [Telefone, setTelefone] = useState<string>("");
   const [erro, setErro] = useState("");
-
+  
   const handleCadastro = async (e: FormEvent) => {
-    e.preventDefault();
-    setErro("");
+  e.preventDefault();
+  setErro("");
 
-    try {
-      const resposta = await signupUser({ Email, Password, CPF, Name, Telefone  });
-      if(resposta.message == "Usuário cadastrado com sucesso"){
-        navigate("/");
-      }
-    } catch (error: any) {
-      if (error.response && error.response.data && error.response.data.error) {
-        setErro(error.response.data.error);
-      } else {
-        setErro("Ocorreu um erro inesperado. Tente novamente.");
-      }
+  try {
+    const resposta = await signupUser({ Email, Password, CPF, Name, Telefone });
+
+    if (resposta.message === "Usuário cadastrado com sucesso") {
+      navigate("/");
+    } else {
+      // Caso a API responda com 200 mas não seja sucesso
+      alert(resposta.message || "Erro ao realizar cadastro");
     }
 
+  } catch (error: any) {
+    let mensagemErro = "Erro ao conectar com o servidor";
+
+    // Tratamento específico se usar Axios
+    if (error.response?.data?.message) {
+      mensagemErro = error.response.data.message;
+    } 
+    // Tratamento se for fetch ou erro comum
+    else if (error.message) {
+      mensagemErro = error.message;
+    }
+
+    setErro(mensagemErro);
+    alert(mensagemErro);
   }
+};
+
 
   return (
     <div className="cadastro-container">

@@ -1,0 +1,88 @@
+/* Definição de variáveis */
+:root {
+    --font-family: Arial, sans-serif;
+    --primary-color: #1e3a8a;
+    --secondary-color: #555;
+    --blue-button: #1d4ed8;
+    --green-button: #059669;
+    --purple-button: #7c3aed;
+    --background-gradient: linear-gradient(to right, #a1c4fd, #c2e9fb);
+    --box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    --container-bg: rgba(255, 255, 255, 0.95);
+    --border-radius: 12px;
+  }
+  
+  body {
+    font-family: var(--font-family);
+    margin: 0; /* É uma boa prática remover a margem padrão do body */
+    min-height: 100vh;
+}
+  
+  .admin-home-container {
+    background-color: var(--container-bg);
+    box-shadow: var(--box-shadow);
+    border-radius: var(--border-radius);
+  }
+
+  .admin-home-container {
+    max-width: 1100px; /* Dobro de 900px */
+    margin: 230px auto;
+    padding: 80px 40px; /* Dobro de 40px e 20px */
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    text-align: center;
+}
+
+.admin-home-container h1 {
+    color: var(--primary-color);
+    font-size: 3rem;
+    margin-bottom: 16px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.admin-home-container p {
+    color: var(--secondary-color);
+    font-size: 1.2rem;
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+
+/* Estilo base para botões */
+.button {
+    text-decoration: none;
+    font-weight: bold;
+    padding: 12px 28px;
+    border-radius: 8px;
+    color: white;
+    transition: all 0.3s ease;
+    display: inline-block; /* Garante que os botões se comportem corretamente */
+    border: 2px solid transparent; /* Adiciona uma borda transparente de 2px */
+}
+  
+/* Modificadores de cor */
+.button--admin-user {
+    background-color: var(--blue-button);
+}
+  
+.button--admin-res {
+    background-color: var(--green-button);
+}
+  
+.button--extra-admin {
+    background-color: var(--purple-button);
+}
+
+/* Adicionando um efeito de hover para destacar a borda */
+.button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    border: 2px solid white; /* A borda se torna branca ao passar o mouse */
+}
+
+.buttons-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px; /* Adiciona 20px de espaço entre os botões */
+    margin-bottom: 20px; /* Adiciona 20px de espaço abaixo do container de botões */
+}
