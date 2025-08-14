@@ -8,6 +8,9 @@ export default defineConfig({
     port: 3000,           // Porta onde o frontend vai rodar (pode ajustar)
     open: true,           // Abre o navegador automaticamente ao rodar o dev server
     cors: true,           // Habilita CORS para comunicação com backend
+    proxy: {
+      '/reservas': 'http://localhost:2000', // endereço do backend
+    },
   },
   resolve: {
     alias: {
