@@ -49,14 +49,34 @@ body {
     color: white;
     transition: all 0.3s ease;
   }
+
+  
   
   /* Cores diferentes para cada botão */
   .home-buttons a.atracoes { background-color: #1d4ed8; }
   .home-buttons a.quartos { background-color: #059669; }
   .home-buttons a.reservas { background-color: #7c3aed; }
+  .home-buttons a.perfil { background-color: #3aeded; }
   
   .home-buttons a:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0,0,0,0.25);
   }
+
+  .logout-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration: none;
+  background-color: #e74c3c;
+  transition: background-color 0.3s;
+}
+
+.logout-button:hover {
+  background-color: #c0392b;
+}
   

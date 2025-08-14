@@ -1,4 +1,5 @@
 import React, { createContext, useState } from "react";
+import { UserProvider } from './context/userContext';
 
 type AppContextType = {
   nomeHotel: string;
@@ -12,7 +13,9 @@ export default function Provider({ children }: { children: React.ReactNode }) {
 
   return (
     <AppContext.Provider value={{ nomeHotel, setNomeHotel }}>
-      {children}
+      <UserProvider>
+        {children}
+      </UserProvider>
     </AppContext.Provider>
   );
 }

@@ -7,6 +7,7 @@ import Quartos from "./pages/Quartos";
 import Atrações from "./pages/Atrações";
 import AdminAttractions from "./pages/AdminAttractions";
 import AtracaoDetalhe from "./pages/AtraçãoDetalhe";
+import { UserProvider } from "./context/userContext";
 import Layout from "./Layout"; // Caminho para o Layout
 
 
@@ -22,6 +23,7 @@ export default function App() {
         <Route path="/adminatrações" element={<AdminAttractions/>}/>
         <Route path="/reservas" element={<Layout><Reservas /></Layout>} />
         <Route path="/quartos" element={<Layout><Quartos /></Layout>} />
+        <Route path="/Perfil" element={<Layout><Quartos /></Layout>} />
         <Route path="/atracoes" element={<Layout><Atrações /></Layout>} />
         <Route path="/atracoes/:name" element={<Layout><AtracaoDetalhe /></Layout>} />
       </Routes>

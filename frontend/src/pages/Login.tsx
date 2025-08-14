@@ -1,10 +1,13 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { loginUser } from "../services/adminverific"; // ajuste para seu service
+import { UserContext } from "../context/userContext";
 
 import "../styles/login.css";
 
 export default function Login() {
+  const { setUser } = useContext(UserContext);
+
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
@@ -20,6 +23,7 @@ export default function Login() {
       if (resposta.role === "admin") {
         navigate("/admin"); // ou /admin/home
       } else if (resposta.role === "comum") {
+        setUser(resposta);
         navigate("/home"); // página home do usuário
       } else {
         setErro("Login ou senha incorretos");
