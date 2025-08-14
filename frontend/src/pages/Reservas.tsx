@@ -113,8 +113,26 @@ export default function Reservas() {
         </button>
       </div>
 
+      {openModalCreate && (
+        <ModalCreateReserva
+          onClose={() => setOpenModalCreate(false)}
+          onCreated={() => {
+            setOpenModalCreate(false); // Fecha o modal
+            fetchReservas();           // Recarrega o backend
+          }}
+        />
+      )}
+
+      {showEstatisticas && (
+        <ModalEstatisticas
+          reservas={filteredReservas}
+          onClose={() => setShowEstatisticas(false)}
+        />
+      )}
+
       {/* Filtro pop-up */}
       <div className="filter-selector">
+        <br></br>
         <label>Filtrar por:</label>
         <select value={filterType || ""} onChange={e => setFilterType(e.target.value as any)}>
           <option value="">-- Escolha --</option>
@@ -163,6 +181,7 @@ export default function Reservas() {
         )}
       </div>
 
+      {/* Lista de reservas */}
       <div className="table-container">
         <table>
           <thead>
@@ -204,23 +223,6 @@ export default function Reservas() {
 
             setSelectedReserva(null);
           }}
-        />
-      )}
-
-      {openModalCreate && (
-        <ModalCreateReserva
-          onClose={() => setOpenModalCreate(false)}
-          onCreated={() => {
-            setOpenModalCreate(false); // Fecha o modal
-            fetchReservas();           // Recarrega o backend
-          }}
-        />
-      )}
-
-      {showEstatisticas && (
-        <ModalEstatisticas
-          reservas={filteredReservas}
-          onClose={() => setShowEstatisticas(false)}
         />
       )}
     </div>
