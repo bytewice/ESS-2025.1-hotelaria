@@ -12,22 +12,22 @@ const router = express.Router()
 //router.post('/login', loginUser); // Rota de login do administrador
 
 // GET
-router.get('/', protectRoute, getAllUser)
-router.get('/all', protectRoute, getAllAdmins)
-router.get('/:id', protectRoute, getUser)
+router.get('/',  getAllUser)
+router.get('/all',  getAllAdmins)
+router.get('/:id',  getUser)
 
 // POST
-router.post('/register', protectRoute, signupUser)
-router.post('/register-admin', protectRoute, createAdmin); // Criar um novo administrador
+router.post('/register',  signupUser)
+router.post('/register-admin',  createAdmin); // Criar um novo administrador
 //router.post('/offers', authorizeRole['admin','manager','publi'], post_offer)
 
 // PUT
-router.put('/:id', protectRoute, updateUser)
+router.put('/:id',  updateUser)
 
 // DELETE
 //router.delete('/admins/:id', deleteAdmin); // Deletar um administrador router.delete('/:id', deleteUser)
-router.delete('/user/:id', protectRoute, deleteUser)
-router.delete('/delete/:id', protectRoute, deleteAdmin)
+router.delete('/user/:id',  deleteUser)
+router.delete('/delete/:id',  deleteAdmin)
 
 // ... lembrar de colocar isso no index.js para aplicar tambem antes de entrar em /admin
 //router.get('/users', isAdmin, getAllUser);
