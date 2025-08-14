@@ -17,12 +17,8 @@ app.use(cookieParser());
 import userPerfilRoutes from './routes/user_perfil.routes.js';
 import adminRoutes from './routes/admin-users.routes.js';
 import attractionRoutes from './routes/attraction_routes.js';
-<<<<<<< HEAD:backend/server/index.js
 import creditCardRoutes from './routes/credit_cards.routes.js'
 import promotionRoutes from './routes/promotions.routes.js'
-=======
-
->>>>>>> main:backend/index.js
 //import userReservationRoutes from './routes/user_reservation.routes.js' // Comentado, se não estiver em uso
 
 import reservas from './routes/admin.reservation.routes.js';
@@ -33,12 +29,9 @@ import reservas from './routes/admin.reservation.routes.js';
 
 app.use('/attraction', attractionRoutes);
 app.use('/user', userPerfilRoutes);
-<<<<<<< HEAD:backend/server/index.js
 app.use('/admin', adminRoutes);
 app.use('/credit_cards', creditCardRoutes)
 app.use('/promotions', promotionRoutes)
-=======
->>>>>>> main:backend/index.js
 
 import loginRoute from './routes/login.routes.js';
 app.use('/login', loginRoute);

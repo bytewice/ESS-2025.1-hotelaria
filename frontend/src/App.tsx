@@ -37,14 +37,9 @@ export default function App() {
         <Route path="/adminatrações" element={<AdminAttractions/>}/>
         <Route path="/reservas" element={<Layout><Reservas /></Layout>} />
         <Route path="/quartos" element={<Layout><Quartos /></Layout>} />
-<<<<<<< HEAD
-        <Route path="/atrações" element={<Layout><Atrações /></Layout>} />
-        <Route path="/atrações/:name" element={<Layout><AtracaoDetalhe /></Layout>} />
-        <Route path="/cartões" element={<Layout><Cartões /></Layout>} />
-=======
         <Route path="/atracoes" element={<Layout><Atrações /></Layout>} />
         <Route path="/atracoes/:name" element={<Layout><AtracaoDetalhe /></Layout>} />
->>>>>>> main
+        <Route path="/cartões" element={<Layout><Cartões /></Layout>} />
       </Routes>
     </Router>
   );
