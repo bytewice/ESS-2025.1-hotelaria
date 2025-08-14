@@ -3,15 +3,22 @@ import { AppContext } from "../Provider";
 import { Link,useNavigate } from "react-router-dom";
 import { UserContext } from "../context/userContext";
 import "../styles/home.css";
+import { logoutUser } from "../services/User_comumApi"
 
 export default function Home() {
   const { nomeHotel } = useContext(AppContext);
   const { user, setUser } = useContext(UserContext);
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    setUser(null);
-    navigate("/");
+  const handleLogout = async () => {
+    try {
+      await logoutUser() //invalida/deletea o cookie antes criado por criado por login.
+      setUser(null);
+      navigate("/");
+    } catch(error){
+      console.error("Falha no logout:", error);
+    }
+
   };
 
   return (

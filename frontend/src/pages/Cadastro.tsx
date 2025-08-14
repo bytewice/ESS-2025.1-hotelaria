@@ -23,7 +23,11 @@ export default function Cadastro() {
         navigate("/");
       }
     } catch (error: any) {
-      setErro(error || "Erro ao conectar com o servidor");
+      if (error.response && error.response.data && error.response.data.error) {
+        setErro(error.response.data.error);
+      } else {
+        setErro("Ocorreu um erro inesperado. Tente novamente.");
+      }
     }
 
   }
@@ -74,7 +78,7 @@ export default function Cadastro() {
             value={Password}
             onChange={(e) => setSenha(e.target.value)}
             placeholder="Digite sua senha"
-            required
+            required //poderia botar minLength={6}, mas quero usar a funcionalidade do .controller :)
           />
         </label>
 

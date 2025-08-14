@@ -10,6 +10,11 @@ export const getUser = async (id: string) => {
   return res.data
 }
 
+export const logoutUser = async () => {
+    const res = await axios.post(`${API_URL}/logout`) // Verifique se a URL está correta
+    return res.data
+}
+
 /*
 export const addMetodo = async (
     id: Number,

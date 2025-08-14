@@ -1,5 +1,5 @@
 import express from 'express';
-import {getUser, signupUser, updateUser, deleteUser} from '../controllers/user_perfil.controllers.js'
+import {getUser, signupUser, updateUser, deleteUser, logoutUser} from '../controllers/user_perfil.controllers.js'
 
 const router = express.Router()
 
@@ -11,6 +11,7 @@ router.get('/:id', getUser)
 
 // POST
 router.post('/signup', signupUser)
+router.post("/logout", logoutUser)
 //router.post('/:id/metodo', addMetodo)
 
 // PATCH

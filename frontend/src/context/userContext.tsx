@@ -1,9 +1,9 @@
 import { createContext, useState, ReactNode } from "react";
-import { User } from "../types/user";
+import { UserComum } from "../types/userComum";
 
 interface UserContextType {
-  user: User | null;
-  setUser: (user: User | null) => void;
+  user: UserComum | null;
+  setUser: (user: UserComum | null) => void;
 }
 
 export const UserContext = createContext<UserContextType>({
@@ -12,7 +12,7 @@ export const UserContext = createContext<UserContextType>({
 });
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<UserComum | null>(null);
 
   return (
     <UserContext.Provider value={{ user, setUser }}>
