@@ -29,7 +29,7 @@ export default function Atrações() {
             <h2>{atracao.nome}</h2>
             {atracao.tipo && <span className="atracao-badge">{atracao.tipo}</span>}
             <p>{atracao.descricao}</p>
-            <Link to={`/atrações/${encodeURIComponent(atracao.nome)}`} className="atracao-button">
+            <Link to={`/atracoes/${encodeURIComponent(atracao.nome)}`} className="atracao-button">
               Ver detalhes
             </Link>
           </div>

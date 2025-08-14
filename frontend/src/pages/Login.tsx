@@ -1,49 +1,54 @@
-import { useState, FormEvent } from "react";
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { loginUser } from "../services/adminverific"; // ajuste para seu service
 import "../styles/login.css";
 
 export default function Login() {
-  const [login, setLogin] = useState<string>("");
-  const [senha, setSenha] = useState<string>("");
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [senha, setSenha] = useState("");
+  const [erro, setErro] = useState("");
 
-  const handleLogin = (e: FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Tentando login com:", login, senha);
-    // Aqui você pode adicionar a lógica de autenticação
+    setErro("");
+
+    try {
+      const resposta = await loginUser({ email, senha });
+
+      if (resposta.role === "admin") {
+        navigate("/admin"); // ou /admin/home
+      } else if (resposta.role === "comum") {
+        navigate("/home"); // página home do usuário
+      } else {
+        setErro("Login ou senha incorretos");
+      }
+    } catch (error: any) {
+      setErro(error.message || "Erro ao conectar com o servidor");
+    }
   };
 
   return (
     <div className="login-container">
-      <h1>Login</h1>
-      <form onSubmit={handleLogin} className="login-form">
-        <label>
-          Usuário:
-          <input
-            type="text"
-            value={login}
-            onChange={(e) => setLogin(e.target.value)}
-            placeholder="Digite seu usuário"
-            required
-          />
-        </label>
-
-        <label>
-          Senha:
-          <input
-            type="password"
-            value={senha}
-            onChange={(e) => setSenha(e.target.value)}
-            placeholder="Digite sua senha"
-            required
-          />
-        </label>
-
+      <h2>Login</h2>
+      <form onSubmit={handleSubmit} className="login-form">
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+        <input
+          type="password"
+          placeholder="Senha"
+          value={senha}
+          onChange={(e) => setSenha(e.target.value)}
+          required
+        />
         <button type="submit">Entrar</button>
+        {erro && <p className="error">{erro}</p>}
       </form>
-
-      <p className="login-link">
-        <Link to="/Cadastro">Não tem Login? Faça seu cadastro</Link>
-      </p>
     </div>
   );
 }
