@@ -7,7 +7,7 @@ import "../styles/list-users.css"
 export function Admin(){
     return (
             <div className="admin-home-container">
-            <h1>Bem-vindo, meu rei  </h1>
+            <h1>Menu Admin  </h1>
             <p>Sistema de gestão de hotelaria</p>
     
             <div className="home-buttons">
@@ -22,7 +22,7 @@ export function Admin(){
 export function AdminUsers(){
     return (
         <div className="home-container">
-        <h1>Bem-vindo, meu rei  </h1>
+        <h1>Gerenciamento de usuários </h1>
         <p>Sistema de gestão de hotelaria</p>
   
         <div className="home-buttons">
@@ -80,7 +80,7 @@ return (
               <p>Telefone: {user.Telefone}</p>
               <p>Role: <span className={`user-role user-role--${user.role}`}>{user.role}</span></p>
               <div className="home-buttons">
-                  <Link to={`/admin/edit-user/${user._id}`} className="user-button edit-button">
+                  <Link to={`/edit-user/${user._id}`} className="user-button edit-button">
                     Editar
                   </Link>
                   <Link to={`/delete-user/${user._id}`} className="user-button delete-button">
@@ -116,7 +116,7 @@ export function AdminList() {
             <Link to="/home-admin" className="back-to-admin">
                 <span>🏠</span>
             </Link>
-          <h1>Lista de Usuários</h1>
+          <h1>Lista de Admins</h1>
           <div className="users-grid">
             {users.length > 0 ? (
               users.map((user) => (
@@ -127,9 +127,6 @@ export function AdminList() {
                   <p>Telefone: {user.Telefone}</p>
                   <p>Role: <span className={`user-role user-role--${user.role}`}>{user.role}</span></p>
                   <div className="home-buttons">
-                      <Link to={`/admin/edit-admin/${user._id}`} className="user-button edit-button">
-                        Editar
-                      </Link>
                       <Link to={`/delete-admin/${user._id}`} className="user-button delete-button">
                         Deletar
                       </Link>

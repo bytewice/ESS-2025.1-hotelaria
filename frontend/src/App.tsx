@@ -28,6 +28,9 @@ export default function App() {
         <Route path="/createadmin" element={<CreateAdmin/>}/>
         <Route path="/delete-user/:id" element={<DeleteUser/>}/>
         <Route path="/delete-admin/:id" element={<DeleteAdmin/>}/>
+        <Route path="/edit-user/:id" element={<EditUser/>}/>
+        <Route path="/edit-admin/:id" element={<EditAdmin/>}/>
+        
 
         <Route path="/adminatrações" element={<AdminAttractions/>}/>
         <Route path="/reservas" element={<Layout><Reservas /></Layout>} />

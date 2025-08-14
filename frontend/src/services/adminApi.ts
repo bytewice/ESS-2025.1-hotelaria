@@ -9,8 +9,8 @@ export const getAllUser = async () => {
     return res.data;
 }
 
-export const updateUser = async () => {
-    const res = await axios.put(`${API_URL}/:id`);
+export const updateUser = async (userID:string, userData: {Name: string; Email: string; CPF: string; Password: string; Telefone: string}) => {
+    const res = await axios.put(`${API_URL}/${userID}`, userData);
     return res.data;
 }
 
