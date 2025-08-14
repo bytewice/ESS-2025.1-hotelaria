@@ -2,7 +2,7 @@ import { useState } from "react";
 import * as React from "react";
 
 interface ModalCreateReservaProps {
-  onClose: () => void;
+  onClose: () => void;    // Função para chamar o modal
   onCreated?: () => void; // callback para atualizar a lista após criar
 }
 
@@ -22,8 +22,8 @@ export default function ModalCreateReserva({ onClose, onCreated }: ModalCreateRe
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = e.target;
     setFormData(prev => ({
-      ...prev,
-      [name]: name === "preco" || name === "pagamento" ? Number(value) : value
+      ...prev,                                                                 // Mantém os valores anteriores
+      [name]: name === "preco" || name === "pagamento" ? Number(value) : value // Converte para número
     }));
   }
 
@@ -63,6 +63,7 @@ export default function ModalCreateReserva({ onClose, onCreated }: ModalCreateRe
     }
   }
 
+  // Renderização
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
       <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-lg">
