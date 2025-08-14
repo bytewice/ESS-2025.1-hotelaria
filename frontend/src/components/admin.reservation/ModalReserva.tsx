@@ -8,8 +8,11 @@ type ModalReservaProps = {
 };
 
 export default function ModalReserva({ reserva, onClose, onSave }: ModalReservaProps) {
+
+  // Define a data no formato desejado
   const [checkIn, setCheckIn] = useState(reserva.checkIn.split("T")[0]);
   const [checkOut, setCheckOut] = useState(reserva.checkOut.split("T")[0]);
+  
   const [quarto, setQuarto] = useState(reserva.quarto);
 
   const handleSave = async () => {
