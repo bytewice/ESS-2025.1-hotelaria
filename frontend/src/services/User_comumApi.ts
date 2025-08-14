@@ -28,7 +28,7 @@ export const loginUser = async (name: string) => {
 */
 
 export const signupUser = async (
-    user: UserComum
+    user: Partial<UserComum>
 ) => {
   const res = await axios.post(`${API_URL}/signup`, user)
   return res.data

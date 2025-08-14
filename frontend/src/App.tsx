@@ -17,6 +17,7 @@ export default function App() {
         {/* Home sem Layout */}
         <Route path="/home" element={<Home />} />
         <Route path="/" element={<Login />} />
+        <Route path="/cadastro" element={<Cadastro />} />
         {/* Páginas secundárias com Layout */}
         <Route path="/adminatrações" element={<AdminAttractions/>}/>
         <Route path="/reservas" element={<Layout><Reservas /></Layout>} />

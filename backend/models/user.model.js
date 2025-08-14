@@ -19,13 +19,13 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
         minlength: 6
-    }
+    },
     // --- NOVO CAMPO ---
-    //role: { // Campo: role (string, com valores 'comum' ou 'admin', padrão 'comum')
-     //   type: String,
-       // enum: ['comum', 'admin','seed'], //unica diferença é q o seed pode criar outros admins
-        //default: 'comum'
-    //}
+    role: { // Campo: role (string, com valores 'comum' ou 'admin', padrão 'comum')
+        type: String,
+        enum: ['comum', 'admin','seed'], //unica diferença é q o seed pode criar outros admins
+        default: 'comum'
+    }
     // createdAt, updatedAt (estes são adicionados pelo timestamps: true)
 }, { discrimanorkey: 'tipo', timestamps: true })
 
