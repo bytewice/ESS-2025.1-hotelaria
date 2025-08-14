@@ -10,8 +10,10 @@ export default function Reservas() {
   const [selectedReserva, setSelectedReserva] = useState<Reserva | null>(null);
   const [showEstatisticas, setShowEstatisticas] = useState(false);
   const [openModalCreate, setOpenModalCreate] = useState(false);
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
+
+  const [cpfFilter, setCpfFilter] = useState("");
+  const [startDateFilter, setStartDateFilter] = useState("");
+  const [endDateFilter, setEndDateFilter] = useState("");
 
   // Busca inicial das reservas
   useEffect(() => {
@@ -23,26 +25,6 @@ export default function Reservas() {
       .then(res => res.json())
       .then(data => setReservas(data))
       .catch(err => console.error("Erro ao carregar reservas:", err));
-  };
-
-  // Filtrar por intervalo de datas
-  const filterByDateRange = () => {
-    if (!startDate || !endDate) {
-      alert("Selecione as duas datas.");
-      return;
-    }
-
-    const filtered = reservas.filter(r => {
-      const checkInDate = new Date(r.checkIn);
-      const checkOutDate = new Date(r.checkOut);
-      const start = new Date(startDate);
-      const end = new Date(endDate);
-
-      // Retorna reservas que tenham parte do período dentro do intervalo
-      return checkInDate <= end && checkOutDate >= start;
-    });
-
-    setReservas(filtered);
   };
 
   const handleDelete = async (id: string) => {
@@ -62,6 +44,47 @@ export default function Reservas() {
       console.error("Erro na requisição de exclusão:", err);
       alert("Erro de conexão ao tentar excluir a reserva.");
     }
+  };
+
+  // Filtro por CPF
+  const filterByCpf = () => {
+    if (!cpfFilter) {
+      alert("Digite um CPF para filtrar.");
+      return;
+    }
+    const filtered = reservas.filter(r =>
+      r.hospedeCpf.includes(cpfFilter)
+    );
+    setReservas(filtered);
+  };
+
+  const resetCpfFilter = () => {
+    setCpfFilter("");
+    fetchReservas();
+  };
+
+  // Filtro por intervalo de datas
+  const filterByDate = () => {
+    if (!startDateFilter || !endDateFilter) {
+      alert("Selecione as duas datas para filtrar.");
+      return;
+    }
+
+    const filtered = reservas.filter(r => {
+      const checkIn = new Date(r.checkIn).setHours(0, 0, 0, 0);
+      const checkOut = new Date(r.checkOut).setHours(0, 0, 0, 0);
+      const start = new Date(startDateFilter).setHours(0, 0, 0, 0);
+      const end = new Date(endDateFilter).setHours(0, 0, 0, 0);
+      return checkIn >= start && checkOut <= end;
+    });
+
+    setReservas(filtered);
+  };
+
+  const resetDateFilter = () => {
+    setStartDateFilter("");
+    setEndDateFilter("");
+    fetchReservas();
   };
 
   return (
@@ -84,32 +107,50 @@ export default function Reservas() {
         </button>
       </div>
 
-      {/* Busca por intervalo de datas */}
-      <div className="date-filter">
-        <label>
-          Início:
+      {/* Filtros */}
+      <div className="filters-container">
+        <div className="cpf-filter">
           <input
-            type="date"
-            value={startDate}
-            onChange={e => setStartDate(e.target.value)}
+            type="text"
+            value={cpfFilter}
+            onChange={e => setCpfFilter(e.target.value)}
+            placeholder="Filtrar por CPF"
           />
-        </label>
-        <label>
-          Fim:
-          <input
-            type="date"
-            value={endDate}
-            onChange={e => setEndDate(e.target.value)}
-          />
-        </label>
-        <button className="search-btn" onClick={filterByDateRange}>
-          🔍 Buscar
-        </button>
-        <button className="reset-btn" onClick={fetchReservas}>
-          ♻️ Resetar
-        </button>
+          <button className="search-btn" onClick={filterByCpf}>
+            🔍 Buscar CPF
+          </button>
+          <button className="reset-btn" onClick={resetCpfFilter}>
+            ♻️ Resetar CPF
+          </button>
+        </div>
+
+        <div className="date-filter">
+          <label>
+            De:
+            <input
+              type="date"
+              value={startDateFilter}
+              onChange={e => setStartDateFilter(e.target.value)}
+            />
+          </label>
+          <label>
+            Até:
+            <input
+              type="date"
+              value={endDateFilter}
+              onChange={e => setEndDateFilter(e.target.value)}
+            />
+          </label>
+          <button className="search-btn" onClick={filterByDate}>
+            🔍 Buscar Datas
+          </button>
+          <button className="reset-btn" onClick={resetDateFilter}>
+            ♻️ Resetar Datas
+          </button>
+        </div>
       </div>
 
+      {/* Tabela de reservas */}
       <div className="table-container">
         <table>
           <thead>
@@ -150,6 +191,7 @@ export default function Reservas() {
         </table>
       </div>
 
+      {/* Modais */}
       {selectedReserva && (
         <ModalReserva
           reserva={selectedReserva}
