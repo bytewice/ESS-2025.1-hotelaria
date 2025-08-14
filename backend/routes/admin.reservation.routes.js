@@ -5,30 +5,33 @@ import {
     excluirReserva,
     listarReservas,
     buscarReservaPorID,
-    buscarReservasPorCPF,
     buscarReservasPorIntervalo,
     historicoHospede,
     reservasFuturtasQuarto
 } from "../controllers/admin.reservation.controller.js";
+import { protectRoute } from "../middlewares/authMiddleware.js";
 
 const router = express.Router();
 
 /* JSON */
 
+// Todas as rotas podem identificar o usuário
+// router.use(identifyUser); NÃO SEI O QUE É ISSO ENTÃO NÃO VOU MEXER
+
 // GET
-router.get("/", listarReservas); // Listar todas
-router.get("/intervalo", buscarReservasPorIntervalo); // Buscar por intervalo de datas
-router.get("/historico/:cpf", historicoHospede); // Histórico de um hóspede
-router.get("/futuras/:quarto", reservasFuturtasQuarto); // Reservas futuras de um quarto
-router.get("/id/:id", buscarReservaPorID); // Buscar reserva por ID
+router.get("/", protectRoute, listarReservas); // Listar todas (admin)
+router.get("/intervalo", protectRoute, buscarReservasPorIntervalo);
+router.get("/historico/:cpf", protectRoute, historicoHospede);
+router.get("/futuras/:quarto", protectRoute, reservasFuturtasQuarto);
+router.get("/id/:id", protectRoute, buscarReservaPorID);
 
-// POST
-router.post("/", criarReserva); // Criar reserva
+// POST - Criar reserva (apenas admin)
+router.post("/", protectRoute, criarReserva);
 
-// PUT
-router.put("/:id", editarReserva); // Editar reserva
+// PUT - Editar reserva (apenas admin)
+router.put("/:id", protectRoute, editarReserva);
 
-// DELETE
-router.delete("/:id", excluirReserva); // Excluir reserva
+// DELETE - Excluir reserva (apenas admin)
+router.delete("/:id", protectRoute, excluirReserva);
 
 export default router;

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { FaBars } from "react-icons/fa";
-import './styles/layout.css'; // Crie este CSS para estilizar o header e menu
+import "./styles/layout.css"; // Crie este CSS para estilizar o header e menu
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [menuOpen, setMenuOpen] = useState(false);

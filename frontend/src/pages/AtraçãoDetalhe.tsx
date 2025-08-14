@@ -1,11 +1,25 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { detailAttraction, sendReview } from "../services/attractionApi";
+import "../styles/atracaoDetalhe.css"; // Novo CSS
+
+interface Review {
+  userName: string;
+  comentario: string;
+  nota: number;
+  data?: string;
+}
+
+interface Attraction {
+  nome: string;
+  descricao: string;
+  reviews?: Review[];
+  imagem?: string; // opcional, se houver imagem da atração
+}
 
 export default function AtracaoDetalhe() {
   const { name } = useParams<{ name: string }>();
-  const [attraction, setAttraction] = useState<any>(null);
-
+  const [attraction, setAttraction] = useState<Attraction | null>(null);
   const [userName, setUserName] = useState("");
   const [comentario, setComentario] = useState("");
   const [nota, setNota] = useState(0);
@@ -27,6 +41,12 @@ export default function AtracaoDetalhe() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+  
+    if (!nota) {
+      alert("Por favor, insira uma nota antes de enviar!");
+      return;
+    }
+  
     try {
       await sendReview(name!, { userName, comentario, nota });
       setUserName("");
@@ -37,70 +57,70 @@ export default function AtracaoDetalhe() {
       console.error("Erro ao enviar avaliação:", err);
     }
   };
+  
 
-  if (!attraction) return <p>Carregando...</p>;
+  if (!attraction) return <p className="loading">Carregando...</p>;
 
   return (
-    <div className="p-4 max-w-2xl mx-auto">
-      <h1 className="text-3xl font-bold mb-2">{attraction.nome}</h1>
-      <p className="mb-4">{attraction.descricao}</p>
+    <div className="atracao-detalhe-container">
+      {attraction.imagem && (
+        <img
+          src={attraction.imagem}
+          alt={attraction.nome}
+          className="atracao-imagem"
+        />
+      )}
+      <h1 className="atracao-titulo">{attraction.nome}</h1>
+      <p className="atracao-descricao">{attraction.descricao}</p>
 
-      <h2 className="text-xl font-semibold mt-6 mb-2">Avaliações</h2>
+      <h2 className="reviews-titulo">Avaliações</h2>
       {attraction.reviews?.length > 0 ? (
-        <ul className="space-y-3">
-          {attraction.reviews.map((rev: any, i: number) => (
-            <li key={i} className="border rounded p-3 bg-gray-50">
-              <strong>{rev.userName}</strong> — Nota: {rev.nota}
-              <p>{rev.comentario}</p>
-              <small>
-                {rev.data
-                  ? new Date(rev.data).toLocaleDateString()
-                  : "Data não disponível"}
+        <ul className="reviews-list">
+          {attraction.reviews.map((rev, i) => (
+            <li key={i} className="review-card">
+              <div className="review-header">
+                <strong>{rev.userName}</strong>
+                <span className="review-nota">{rev.nota}/5</span>
+              </div>
+              <p className="review-text">{rev.comentario}</p>
+              <small className="review-data">
+                {rev.data ? new Date(rev.data).toLocaleDateString() : "Data não disponível"}
               </small>
             </li>
           ))}
         </ul>
       ) : (
-        <p>Sem avaliações ainda.</p>
+        <p className="no-reviews">Sem avaliações ainda.</p>
       )}
 
-      <form onSubmit={handleSubmit} className="mt-6 space-y-3">
-        <div>
-          <label className="block">Seu nome:</label>
+      <form onSubmit={handleSubmit} className="review-form">
+        <h3>Deixe sua avaliação</h3>
+        <div className="form-group">
+          <label>Seu nome:</label>
           <input
-            className="border p-2 w-full"
             value={userName}
             onChange={(e) => setUserName(e.target.value)}
-            required
+            
           />
         </div>
-        <div>
-          <label className="block">Comentário:</label>
+        <div className="form-group">
+          <label>Comentário:</label>
           <textarea
-            className="border p-2 w-full"
             value={comentario}
             onChange={(e) => setComentario(e.target.value)}
-            required
+            
           />
         </div>
-        <div>
-          <label className="block">Nota (1-5):</label>
+        <div className="form-group">
+          <label>Nota (1-5):</label>
           <input
             type="number"
-            min={1}
-            max={5}
-            className="border p-2 w-full"
             value={nota}
             onChange={(e) => setNota(Number(e.target.value))}
-            required
+          
           />
         </div>
-        <button
-          type="submit"
-          className="bg-blue-600 text-white px-4 py-2 rounded"
-        >
-          Enviar Avaliação
-        </button>
+        <button type="submit" className="review-button">Enviar Avaliação</button>
       </form>
     </div>
   );
