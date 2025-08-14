@@ -1,10 +1,10 @@
 export default { 
   default: {
     paths: [
-      'features/**/*.feature'
+      '../features/user_perfil.feature'
     ],
     import: [
-      '.test/**/*.js' 
+      'test/user_perfil_steps.js'
     ]
   }
 };

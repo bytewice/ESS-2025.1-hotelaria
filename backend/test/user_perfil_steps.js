@@ -1,24 +1,25 @@
 console.log('--- O ARQUIVO DE STEPS FOI CARREGADO COM SUCESSO ---')
-import { Given, When, Then, BeforeAll, AfterAll} from '@cucumber/cucumber'
+import { Given, When, Then, BeforeAll, AfterAll, setDefaultTimeout} from '@cucumber/cucumber'
 import request from 'supertest'
 import app from '../index.js'
 import mongoose from 'mongoose'
 import User from '../models/user.model.js'
 import UserComum from '../models/user_comum.model.js'
-import bcrypt from 'bcryptjs'
 import { expect } from 'chai'
+import bcrypt from 'bcryptjs'
 import dotenv from 'dotenv'
+
 dotenv.config()
+
+setDefaultTimeout(5 * 1000)
 
 BeforeAll(async function () {
     console.log('Cucumber BeforeAll: Conectando ao MongoDB de Teste e limpando dados...')
-    if (!process.env.MONGO_DB_URI) {
+    if (!process.env.MONGO_DB_URI_TEST) {
         console.log('A variável de ambiente MONGO_DB_URI_TEST não está definida.')
         throw new Error("A variável de ambiente MONGO_DB_URI_TEST não está definida.")
     }
-    //console.log('A')
-    await mongoose.connect(process.env.MONGO_DB_URI)
-    //console.log('B')
+    await mongoose.connect(process.env.MONGO_DB_URI_TEST)
     await User.deleteMany({})
     console.log('Cucumber BeforeAll: Setup inicial concluído.')
 })
@@ -29,6 +30,8 @@ AfterAll(async function(){
     await mongoose.connection.close()
     console.log('Cucumber AfterAll: Desconectado.')
 })
+
+//----------------------------------------------------------------GIVEN------------------------------------
 
 Given('não existe um usuário com CPF {string} no sistema', async function (cpf) {
     await UserComum.deleteOne({ CPF: cpf })
@@ -120,19 +123,19 @@ When('é enviada uma requisição para cadastrar um novo usuário com CPF igual 
 })
 When('ele envia uma requisição para editar sua senha para {string}', async function (newPassword) {
     this.response = await request(app)
-        .put(`/user/${this.currentUserId}`)
+        .patch(`/user/${this.currentUserId}`)
         .send({ Password: newPassword, ConfirmPassword: newPassword })
 })
 When('é enviada uma requisição para mudar o seu nome para {string}', async function (newName) {
     const userToUpdate = await UserComum.findOne({ CPF: this.currentUserCpf })
     this.response = await request(app)
-        .put(`/user/${userToUpdate._id}`)
+        .patch(`/user/${userToUpdate._id}`)
         .send({ Name: newName })
 })
 When('o usuário de CPF {string} envia uma requisição para editar seu CPF para {string}', async function (originalCpf, newCpf) {
     const userToUpdate = await UserComum.findOne({ CPF: originalCpf })
     this.response = await request(app)
-        .put(`/user/${userToUpdate._id}`)
+        .patch(`/user/${userToUpdate._id}`)
         .send({ CPF: newCpf })
 })
 When('é enviada uma requisição para remover o usuário com CPF igual à {string}', async function (cpf) {

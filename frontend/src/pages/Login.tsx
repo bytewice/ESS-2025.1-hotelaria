@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { loginUser } from "../services/adminverific"; // ajuste para seu service
+
 import "../styles/login.css";
 
 export default function Login() {
@@ -9,7 +10,7 @@ export default function Login() {
   const [senha, setSenha] = useState("");
   const [erro, setErro] = useState("");
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setErro("");
 
@@ -49,6 +50,9 @@ export default function Login() {
         <button type="submit">Entrar</button>
         {erro && <p className="error">{erro}</p>}
       </form>
+      <div className="login-buttons">
+        <Link to="/cadastro" className="cadastro">Cadastro</Link>
+      </div>
     </div>
   );
 }

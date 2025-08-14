@@ -58,6 +58,24 @@
   .login-form button:hover {
     background-color: #0056b3;
   }
+
+  .login-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  
+  .login-buttons a {
+    text-decoration: none;
+    font-weight: bold;
+    padding: 12px 28px;
+    border-radius: 8px;
+    color: white;
+    transition: all 0.3s ease;
+  }
+
+  .login-buttons a.cadastro { background-color: #059669; }
   
   /* Mensagem de erro */
   .error {

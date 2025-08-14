@@ -1,8 +1,10 @@
 {
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "chai": "^5.2.1",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
+    "cross-env": "^10.0.0",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "jsonwebtoken": "^9.0.2",
@@ -15,19 +17,17 @@
     "seed:user": "node ./seeds/seedUser.js",
     "test:api:debug": "cucumber-js features --import '.test/**/*.js' --tags \"not @gui\"",
     "test:api": "cucumber-js --tags \"not @gui\"",
-    "test:gui": "cucumber-js --tags '@gui'",
-    "seed:admin": "node ./seeds/seedAdmin.js",
-    "test:final": "cucumber-js features/user_perfil.feature --import test/user_perfil_steps.js --tags \"not @gui\""
+    "test:user_comum": "cross-env NODE_ENV=test cucumber-js ../features/user_perfil.feature --import test/user_perfil_steps.js --tags \"not @gui\"",
+    "seed:admin": "node ./seeds/seedAdmin.js"
   },
   "type": "module",
   "devDependencies": {
-    "@jest/globals": "^30.0.5",
-    "chai": "^5.2.1",
     "@babel/core": "^7.28.0",
     "@babel/preset-env": "^7.28.0",
     "@cucumber/cucumber": "^12.1.0",
+    "@jest/globals": "^30.0.5",
     "babel-jest": "^30.0.5",
-    "jest": "^30.0.4",
+    "jest": "^30.0.5",
     "jest-cucumber": "^4.5.0",
     "nodemon": "^3.1.10",
     "supertest": "^7.1.3"
