@@ -47,16 +47,8 @@ export const updateUser = async ( //
   return res.data
 }
 
-/*
-export const logoutUser = async (name: string) => {
-  const res = await axios.get(`${API_URL}/${name}`)
-  return res.data
-}
-*/
-
 export const deleteUser = async ( //
     id: Number
-
 ) => {
   const res = await axios.delete(`${API_URL}/${id}`)
   return res.data

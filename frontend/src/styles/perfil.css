@@ -33,7 +33,7 @@
 
 .perfil-info p {
   display: flex;
-  justify-content: space-between;
+  /* justify-content: space-between; */ /* <<--- REMOVA OU COMENTE ESTA LINHA! */
   align-items: center;
   padding: 15px 10px;
   border-bottom: 1px solid #e9ecef;
@@ -54,13 +54,8 @@
 .perfil-info span {
   color: #333;
   word-break: break-all; /* Quebra emails longos se necessário */
-}
-
-/* Destaque especial para o aviso da senha */
-.senha-warning span {
-  color: #e74c3c;
-  font-style: italic;
-  font-weight: bold;
+  flex-grow: 1;
+  text-align: right;
 }
 
 .perfil-back-button {
@@ -76,5 +71,46 @@
 
 .perfil-back-button:hover {
   background-color: #2980b9;
+  transform: translateY(-2px);
+}
+
+.perfil-actions {
+  margin-top: 30px;
+  display: flex;
+  justify-content: space-between; /* Alinha os botões */
+  gap: 15px; /* Espaço entre os botões */
+}
+
+.perfil-delete-button {
+  display: inline-block;
+  background-color: #e74c3c; /* Vermelho perigo */
+  color: white;
+  padding: 12px 25px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.perfil-delete-button:hover {
+  background-color: #c0392b;
+  transform: translateY(-2px);
+}
+
+.perfil-edit-button {
+  display: inline-block;
+  background-color: #2ecc71; /* Verde sucesso */
+  color: white;
+  padding: 12px 25px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.perfil-edit-button:hover {
+  background-color: #27ae60;
   transform: translateY(-2px);
 }

@@ -24,10 +24,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         {/* Menu suspenso */}
         {menuOpen && (
           <nav className="dropdown-menu">
-            <Link to="/" onClick={() => setMenuOpen(false)}>🏠 Home</Link>
+            <Link to="/home" onClick={() => setMenuOpen(false)}>🏠 Home</Link>
             <Link to="/atrações" onClick={() => setMenuOpen(false)}>🎡 Atrações</Link>
             <Link to="/quartos" onClick={() => setMenuOpen(false)}>🛏️ Quartos</Link>
             <Link to="/reservas" onClick={() => setMenuOpen(false)}>📅 Reservas</Link>
+            <Link to="/perfil" onClick={() => setMenuOpen(false)}>👤 Perfil</Link>
           </nav>
         )}
       </header>
