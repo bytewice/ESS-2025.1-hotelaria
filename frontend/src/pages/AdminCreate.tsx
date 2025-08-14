@@ -49,6 +49,9 @@ export function CreateUser() {
 
   return (
     <div className="admin-container">
+      <Link to="/home-admin" className="back-to-admin">
+        <span>🏠</span>
+      </Link>
       <h1>Criar Novo Usuário</h1>
 
       <form onSubmit={handleCreateUser} className="admin-form">
@@ -110,7 +113,9 @@ export function CreateAdmin(){
     if (!name || !email || !cpf || !password || !confirmpassword) {
       setMessage("Por favor, preencha os campos obrigatórios: Nome, Email, CPF e Senha.");
       return;
-    }
+    }      <Link to="/home-admin" className="back-to-admin">
+    <span>🏠</span>
+  </Link>
 
     try {
       await create_Admin({ Name:name, Email:email, CPF:cpf, Password:password, ConfirmPassword:confirmpassword });
@@ -132,6 +137,9 @@ export function CreateAdmin(){
 
   return (
     <div className="admin-container">
+      <Link to="/home-admin" className="back-to-admin">
+        <span>🏠</span>
+      </Link>
       <h1>Criar Novo Administrador</h1>
 
       <form onSubmit={handleCreateUser} className="admin-form">

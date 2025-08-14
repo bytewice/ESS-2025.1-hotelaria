@@ -23,12 +23,12 @@ export const create_Admin = async (userData: {Name: string; Email: string; CPF: 
     return res.data;
 }
 
-export const deleteUser = async () => {
-    const res = await axios.delete(`${API_URL}/user/:id`);
+export const deleteUser = async (userID: string) => {
+    const res = await axios.delete(`${API_URL}/user/${userID}`);
     return res.data;
 }
 
-export const deleteAdmin = async () => {
-    const res = await axios.delete(`${API_URL}/delete/:id`);
+export const deleteAdmin = async (userID: string) => {
+    const res = await axios.delete(`${API_URL}/delete/${userID}`);
     return res.data;
 }

@@ -64,7 +64,11 @@ useEffect(() => {
 }, []);
 
 return (
+
     <div className="admin-container">
+        <Link to="/home-admin" className="back-to-admin">
+                <span>🏠</span>
+            </Link>
       <h1>Lista de Usuários</h1>
       <div className="users-grid">
         {users.length > 0 ? (
@@ -79,7 +83,7 @@ return (
                   <Link to={`/admin/edit-user/${user._id}`} className="user-button edit-button">
                     Editar
                   </Link>
-                  <Link to={`/home`} className="user-button delete-button">
+                  <Link to={`/delete-user/${user._id}`} className="user-button delete-button">
                     Deletar
                   </Link>
                 </div>            
@@ -109,6 +113,9 @@ export function AdminList() {
     
     return (
         <div className="admin-container">
+            <Link to="/home-admin" className="back-to-admin">
+                <span>🏠</span>
+            </Link>
           <h1>Lista de Usuários</h1>
           <div className="users-grid">
             {users.length > 0 ? (
@@ -123,7 +130,7 @@ export function AdminList() {
                       <Link to={`/admin/edit-admin/${user._id}`} className="user-button edit-button">
                         Editar
                       </Link>
-                      <Link to={`/admin/delete-admin/${user._id}`} className="user-button delete-button">
+                      <Link to={`/delete-admin/${user._id}`} className="user-button delete-button">
                         Deletar
                       </Link>
                     </div>            
@@ -135,23 +142,4 @@ export function AdminList() {
           </div>
         </div>
     );
-    }
-
-    export function CreateUser(){
-        return(
-            <div className="home-container">
-            <h1>AAAAAAAAAAAAAAAAAAA </h1>
-            <p>AAAAAAAAAAAAAAAAAAA</p>
-      
-            <div className="home-buttons">
-              <Link to="/atracoes" className="atracoes">AAAAAAAAAAAAAAA</Link>
-              <Link to="/quartos" className="quartos">AAAAAAAAAAAAAAAA</Link>
-              <Link to="/reservas" className="reservas">AAAAAAAAAAAAAAAA</Link>
-            </div>
-      
-            <p style={{ marginTop: "40px", color: "#555" }}>
-              AAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-            </p>
-          </div>
-        );
     }

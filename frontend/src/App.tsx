@@ -8,6 +8,7 @@ import AdminAttractions from "./pages/AdminAttractions";
 import AtracaoDetalhe from "./pages/AtraçãoDetalhe";
 import { Admin, AdminUsers, UsersList, AdminList} from "./pages/Admin"
 import { CreateUser, CreateAdmin} from './pages/AdminCreate'
+import { DeleteUser, DeleteAdmin} from './pages/AdminDelete'
 import { EditAdmin, EditUser } from "./pages/AdminEdit"; //fazer jaja
 import Layout from "./Layout"; // Caminho para o Layout
 
@@ -25,7 +26,8 @@ export default function App() {
         <Route path="/adminlist" element={<AdminList/>}/>     
         <Route path="/createuser" element={<CreateUser/>}/>
         <Route path="/createadmin" element={<CreateAdmin/>}/>
-
+        <Route path="/delete-user/:id" element={<DeleteUser/>}/>
+        <Route path="/delete-admin/:id" element={<DeleteAdmin/>}/>
 
         <Route path="/adminatrações" element={<AdminAttractions/>}/>
         <Route path="/reservas" element={<Layout><Reservas /></Layout>} />

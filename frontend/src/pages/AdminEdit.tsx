@@ -18,20 +18,6 @@ export function EditUser(){
     const { nomeHotel } = useContext(AppContext);
     const a = id;
     return(
-        <div className="home-container">
-        <h1>AAAAAAAAAAAAAAAAAAA {nomeHotel}</h1>
-        <p>AAAAAAAAAAAAAAAAAAA</p>
-  
-        <div className="home-buttons">
-          <Link to="/atracoes" className="atracoes">AAAAAAAAAAAAAAA</Link>
-          <Link to="/quartos" className="quartos">AAAAAAAAAAAAAAAA</Link>
-          <Link to="/reservas" className="reservas">AAAAAAAAAAAAAAAA</Link>
-        </div>
-  
-        <p style={{ marginTop: "40px", color: "#555" }}>
-          AAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        </p>
-      </div>
     );
 }
 
