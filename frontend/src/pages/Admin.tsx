@@ -12,7 +12,7 @@ export function Admin(){
     
             <div className="home-buttons">
             <Link to="/admin-users" className="button--admin-user">Gerenciar Usuários</Link>
-            <Link to="/ALVARO-COLOCAR" className="button--admin-res">Gerenciar Reservas</Link>
+            <Link to="/reservas" className="button--admin-res">Gerenciar Reservas</Link>
             </div>
     
             </div>

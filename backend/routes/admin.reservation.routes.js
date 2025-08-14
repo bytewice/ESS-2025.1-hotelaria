@@ -19,19 +19,19 @@ const router = express.Router();
 // router.use(identifyUser); NÃO SEI O QUE É ISSO ENTÃO NÃO VOU MEXER
 
 // GET
-router.get("/", protectRoute, listarReservas); // Listar todas (admin)
-router.get("/intervalo", protectRoute, buscarReservasPorIntervalo);
-router.get("/historico/:cpf", protectRoute, historicoHospede);
-router.get("/futuras/:quarto", protectRoute, reservasFuturtasQuarto);
-router.get("/id/:id", protectRoute, buscarReservaPorID);
+router.get("/",  listarReservas); // Listar todas (admin)
+router.get("/intervalo",  buscarReservasPorIntervalo);
+router.get("/historico/:cpf",  historicoHospede);
+router.get("/futuras/:quarto",  reservasFuturtasQuarto);
+router.get("/id/:id",  buscarReservaPorID);
 
 // POST - Criar reserva (apenas admin)
-router.post("/", protectRoute, criarReserva);
+router.post("/",  criarReserva);
 
 // PUT - Editar reserva (apenas admin)
-router.put("/:id", protectRoute, editarReserva);
+router.put("/:id",  editarReserva);
 
 // DELETE - Excluir reserva (apenas admin)
-router.delete("/:id", protectRoute, excluirReserva);
+router.delete("/:id",  excluirReserva);
 
 export default router;
