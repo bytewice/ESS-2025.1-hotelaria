@@ -91,7 +91,7 @@ export default function Cadastro() {
             value={Password}
             onChange={(e) => setSenha(e.target.value)}
             placeholder="Digite sua senha"
-            required
+            required //poderia botar minLength={6}, mas quero usar a funcionalidade do .controller :)
           />
         </label>
 
