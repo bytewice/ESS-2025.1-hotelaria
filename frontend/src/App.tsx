@@ -7,6 +7,7 @@ import Quartos from "./pages/Quartos";
 import Atrações from "./pages/Atrações";
 import AdminAttractions from "./pages/AdminAttractions";
 import AtracaoDetalhe from "./pages/AtraçãoDetalhe";
+import Cartões from "./pages/Cartões";
 import Layout from "./Layout"; // Caminho para o Layout
 
 import { Admin, AdminUsers, UsersList, AdminList} from "./pages/Admin"
@@ -38,6 +39,7 @@ export default function App() {
         <Route path="/quartos" element={<Layout><Quartos /></Layout>} />
         <Route path="/atracoes" element={<Layout><Atrações /></Layout>} />
         <Route path="/atracoes/:name" element={<Layout><AtracaoDetalhe /></Layout>} />
+        <Route path="/cartões" element={<Layout><Cartões /></Layout>} />
       </Routes>
     </Router>
   );

@@ -54,6 +54,7 @@ body {
   .home-buttons a.atracoes { background-color: #1d4ed8; }
   .home-buttons a.quartos { background-color: #059669; }
   .home-buttons a.reservas { background-color: #7c3aed; }
+  .home-buttons a.cartões { background-color: #ff0000; }
   
   .home-buttons a:hover {
     transform: translateY(-2px);
