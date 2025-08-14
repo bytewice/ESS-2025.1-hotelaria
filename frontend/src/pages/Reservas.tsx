@@ -10,20 +10,39 @@ export default function Reservas() {
   const [selectedReserva, setSelectedReserva] = useState<Reserva | null>(null);
   const [showEstatisticas, setShowEstatisticas] = useState(false);
   const [openModalCreate, setOpenModalCreate] = useState(false);
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
 
   // Busca inicial das reservas
   useEffect(() => {
-    fetch("/reservas")
-      .then(res => res.json())
-      .then(data => setReservas(data))
-      .catch(err => console.error("Erro ao carregar reservas:", err));
+    fetchReservas();
   }, []);
 
   const fetchReservas = () => {
     fetch("/reservas")
       .then(res => res.json())
       .then(data => setReservas(data))
-      .catch(err => console.error("Erro ao recarregar reservas:", err));
+      .catch(err => console.error("Erro ao carregar reservas:", err));
+  };
+
+  // Filtrar por intervalo de datas
+  const filterByDateRange = () => {
+    if (!startDate || !endDate) {
+      alert("Selecione as duas datas.");
+      return;
+    }
+
+    const filtered = reservas.filter(r => {
+      const checkInDate = new Date(r.checkIn);
+      const checkOutDate = new Date(r.checkOut);
+      const start = new Date(startDate);
+      const end = new Date(endDate);
+
+      // Retorna reservas que tenham parte do período dentro do intervalo
+      return checkInDate <= end && checkOutDate >= start;
+    });
+
+    setReservas(filtered);
   };
 
   const handleDelete = async (id: string) => {
@@ -53,15 +72,41 @@ export default function Reservas() {
       <div className="home-buttons">
         <button
           onClick={() => setOpenModalCreate(true)}
-          className="reservas" // Classe roxa para criar nova reserva
+          className="reservas"
         >
           ➕ Nova Reserva
         </button>
         <button
           onClick={() => setShowEstatisticas(true)}
-          className="quartos" // Classe verde para ver estatísticas
+          className="quartos"
         >
           📊 Ver Estatísticas
+        </button>
+      </div>
+
+      {/* Busca por intervalo de datas */}
+      <div className="date-filter">
+        <label>
+          Início:
+          <input
+            type="date"
+            value={startDate}
+            onChange={e => setStartDate(e.target.value)}
+          />
+        </label>
+        <label>
+          Fim:
+          <input
+            type="date"
+            value={endDate}
+            onChange={e => setEndDate(e.target.value)}
+          />
+        </label>
+        <button className="search-btn" onClick={filterByDateRange}>
+          🔍 Buscar
+        </button>
+        <button className="reset-btn" onClick={fetchReservas}>
+          ♻️ Resetar
         </button>
       </div>
 
